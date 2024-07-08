@@ -3,17 +3,28 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": " nodemon ./src/app.js"
+    "start": " nodemon ./src/app.js",
+    "lint": "eslint .  ",
+    "lint-fix": "eslint --fix .  "
   },
   "dependencies": {
     "body-parser": "^1.20.2",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "~1.4.6",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "eslint": "^9.6.0",
+    "express": "^4.19.2",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
+    "jade": "^1.11.0",
     "morgan": "~1.9.1",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "sequelize": "^6.37.3",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "eslint-plugin-vue": "^9.27.0",
+    "globals": "^15.8.0",
+    "typescript-eslint": "^7.15.0"
   }
 }

@@ -44,15 +44,30 @@
             </div>
 
             <div class="GruppoBottoni FontSize">
-              <!--TODO MEttere nel punto giusto -->
+                <!--TODO MEttere nel punto giusto -->
 
-                <div 
-                  @update="editor.chain().focus().setFontSize(convertToFontSize( [fontsizeNumber]  )).run()"
-                  :class="{'active': editor.isActive('textStyle', {fontSize: convertToFontSize(   [fontsizeNumber]   ) })}"
-                ><input type="number" v-model="fontsizeNumber"  min="8" max="96" class="tagButton"/>
-              </div> 
-
-                
+                <div
+                    @update="
+                        editor
+                            .chain()
+                            .focus()
+                            .setFontSize(convertToFontSize([fontsizeNumber]))
+                            .run()
+                    "
+                    :class="{
+                        active: editor.isActive('textStyle', {
+                            fontSize: convertToFontSize([fontsizeNumber])
+                        })
+                    }"
+                >
+                    <input
+                        type="number"
+                        v-model="fontsizeNumber"
+                        min="8"
+                        max="96"
+                        class="tagButton"
+                    />
+                </div>
             </div>
 
             <div class="GruppoBottoni OrganizazioneTesto">
@@ -78,8 +93,8 @@
                 >
                     <CodeIcon />
                 </button>
-                <button @click="addImage" class="tagButton" >
-                  <SetImage/>
+                <button @click="addImage" class="tagButton">
+                    <SetImage />
                 </button>
                 <button class="tagButton" @click="editor.chain().focus().setHorizontalRule().run()">
                     <HorizontalRuleIcon />
@@ -140,14 +155,14 @@
 
 <script setup lang="ts">
 import { useEditor, EditorContent } from '@tiptap/vue-3';
-import {ref} from 'vue';
+import { ref } from 'vue';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import ImageRule from '@tiptap/extension-image';
-import FontSize from 'tiptap-extension-font-size'
-import TextStyle from '@tiptap/extension-text-style'
-import FontFamily from '@tiptap/extension-font-family'
+import FontSize from 'tiptap-extension-font-size';
+import TextStyle from '@tiptap/extension-text-style';
+import FontFamily from '@tiptap/extension-font-family';
 
 import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
 import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
@@ -167,7 +182,7 @@ import HorizontalRuleIcon from 'vue-material-design-icons/minus.vue';
 import SetImage from 'vue-material-design-icons/ImagePlusOutline.vue';
 import 'vue-material-design-icons/styles.css';
 
-const fontsizeNumber=ref(12);
+const fontsizeNumber = ref(12);
 
 const props = defineProps({
     modelValue: String
@@ -176,7 +191,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const editor = useEditor({
     content: props.modelValue,
-    extensions: [StarterKit, Underline, HorizontalRule,ImageRule,FontSize,TextStyle,FontFamily],
+    extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily],
     onUpdate: ({ editor }) => {
         console.log(editor.getHTML());
         emit('update:modelValue', editor.getHTML());
@@ -187,13 +202,12 @@ function convertToFontSize(fontSize: number) {
     return fontSize + 'pt';
 }
 
-function addImage(){
-  const url=window.prompt('URL')
-  if(url){
-    editor.chain().focus().setImage({src:url}).run()
-  }
+function addImage() {
+    const url = window.prompt('URL');
+    if (url) {
+        editor.chain().focus().setImage({ src: url }).run();
+    }
 }
-
 </script>
 
 <style>

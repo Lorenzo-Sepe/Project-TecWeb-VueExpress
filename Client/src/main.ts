@@ -1,6 +1,4 @@
 import './assets/main.css';
-import '@mdi/font/css/materialdesignicons.css';
-import '@fortawesome/fontawesome-free/css/all.css';
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import { aliases, fa } from 'vuetify/iconsets/fa';
@@ -15,14 +13,6 @@ import App from './App.vue';
 import router from './router';
 
 const vuetify = createVuetify({
-    icons: {
-        defaultSet: 'mdi',
-        aliases,
-        sets: {
-            fa,
-            mdi
-        }
-    },
     components,
     directives
 });
