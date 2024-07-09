@@ -38,7 +38,7 @@ export class AuthController {
         password: req.body.password
       });
       res.send(user.toJSON)
-      //return user.save(); //returns a Promise
+      return user.save(); //returns a Promise
     } catch (error) {
       res.status(400).send({
         error:'Questa email è già stata utilizzata per un altro account.'
