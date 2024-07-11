@@ -1,32 +1,53 @@
 <template>
+    <v-container>
+            <div class="white elevation-2">
+                <v-toolbar flat dense color="#005676" >
+                    <v-toolbar-title class="label">Login</v-toolbar-title>
+                </v-toolbar>
 
-    <v-layout column  >
-       <v-flex >
-        <div class="white elevation-2">
-            <v-toolbar flat dense color="#005676" >
-                <v-toolbar-title class="label">Register/Log In</v-toolbar-title>
-            </v-toolbar>
-                <div class="pt-2 pb-2 pl-4 pr-4">
-                <v-text-field v-model="user" label="User" required></v-text-field>
-                <v-text-field v-model="email" label="Email" required></v-text-field>
-                <v-text-field v-model="password" label="Password" required></v-text-field>
-                
-                    <v-btn @click="login">Log In</v-btn>
-                    <v-btn @click="register">Register</v-btn>
-               
-                
-                <div v-html="err" class="err"></div>
+                <div class="pl-4 pr-4 pt-2 pb-2">
+                    <v-text-field
+                    name="user"
+                    label="Username"
+                    value="Username"
+                    class="input-group--focussed"
+                     
+                    v-model="user"
+                    ></v-text-field>
+
+                    <v-text-field
+                    name="email"
+                    label="Email"
+                    value="Email"
+                    class="input-group--focussed"
+                     
+                    v-model="email"
+                    ></v-text-field>
+
+                    <v-text-field
+                    name="password"
+                    label="Password"
+                    value="Password"
+                    class="input-group--focussed"
+                     
+                    v-model="password"
+                    ></v-text-field>
+                    <div class="areaButtons">
+                    <v-btn class="bottone" size="large" color="#005676" @click="login"><span class="label">Login</span></v-btn>
+                    <v-btn class="bottone" size="large" color="#005676" @click="register"><span class="label">Registrati</span></v-btn>
+                    </div>
+                    <div class="err">{{ err }}</div>
                     
+                </div>
             </div>
-
-            
-        </div> 
-       </v-flex> 
-    </v-layout>    
+      
+    </v-container>
 </template>
 
+      
 <script setup lang="ts">
 import AuthService from '@/services/AuthService';
+//import 
 import { ref } from 'vue';
 
 const user =ref('');
@@ -69,12 +90,16 @@ async function register() {
     font-weight: semi-bold;
     color: #f9b63c;
 }
-
-div.areaButtons {
+.areaButtons{
     display: flex;
-    flex-direction: row;
-}
-div #container{
+    gap: 10px;
+    justify-content: space-around;
+    justify-items: center;
+    margin-top: 10px;
+    color: #f9b63c;
     width: 100%;
 }
-</style>@/services/AuthService
+.bottone{
+    width: 45%;
+}
+</style>
