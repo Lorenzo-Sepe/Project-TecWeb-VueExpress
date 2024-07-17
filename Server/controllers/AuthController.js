@@ -1,4 +1,4 @@
-import { User } from "../models/Database.js";
+import { User,Idea } from "../models/Database.js";
 import Jwt from "jsonwebtoken";
 
 
@@ -56,5 +56,9 @@ export class AuthController {
     Jwt.verify(token, process.env.TOKEN_SECRET, callback);
   }
 
-  
+  static async canUserModifyIdea(user, ideaId){
+    const idea = await Idea.findByPk(ideaId);
+    //idea must exist and be associated with user
+    return idea && idea.userMail === user;
+  }
 }

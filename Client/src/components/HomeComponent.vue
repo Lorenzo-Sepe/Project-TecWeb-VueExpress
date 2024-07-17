@@ -1,51 +1,42 @@
 <template>
-    <div>
-        <v-container>
-            <v-row>
-                <v-col cols="12">
-                    <h1>Welcome to our Homepage!</h1>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col v-for="article in articles" :key="article.id" cols="12" sm="6" md="4">
-                    <v-card>
-                        <v-img :src="article.image" height="200"></v-img>
-                        <v-card-title>{{ article.title }}</v-card-title>
-                        <v-card-text>{{ article.description }}</v-card-text>
-                        <v-card-actions>
-                            <v-btn color="primary" >Read More</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-    </div>
-</template>
+    <v-card>
+      <v-tabs
+        v-model="tab"
+        bg-color="#f9b63c"
+      >
+        <v-tab value="one"><span class="labels">Più Recenti</span></v-tab>
+        <v-tab value="two"><span class="labels">Più Controverse</span></v-tab>
+        <v-tab value="three"><span class="labels">Più Popolari</span></v-tab>
+        <v-tab value="four"><span class="labels">Più Sfavorite</span></v-tab>
+      </v-tabs>
+  
+      <v-card-text>
+        <v-tabs-window v-model="tab">
+          <v-tabs-window-item value="one">
+            <Catalog/>
+          </v-tabs-window-item>
+  
+          <v-tabs-window-item value="two">
+            Two
+          </v-tabs-window-item>
+  
+          <v-tabs-window-item value="three">
+            Three
+          </v-tabs-window-item>
+        </v-tabs-window>
+      </v-card-text>
+    </v-card>
+  </template>
 
-<script setup lang="ts">
-
-const articles= [
-                {
-                    id: 1,
-                    title: 'Article 1',
-                    description: 'This is the description for Article 1.',
-                    image: 'https://example.com/article1.jpg',
-                },
-                {
-                    id: 2,
-                    title: 'Article 2',
-                    description: 'This is the description for Article 2.',
-                    image: 'https://example.com/article2.jpg',
-                },
-                {
-                    id: 3,
-                    title: 'Article 3',
-                    description: 'This is the description for Article 3.',
-                    image: 'https://example.com/article3.jpg',
-                },
-            ]
-</script>
+  <script setup lang="ts">
+  import { ref } from 'vue'
+  import Catalog from './CatalogComponent.vue'
+  const tab = ref('one')
+   </script>
 
 <style scoped>
-/* Add custom styles here */
+.labels {
+    font-weight: 550;
+    color: #005676;
+}
 </style>

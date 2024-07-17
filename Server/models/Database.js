@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import { createModel as createUserModel } from "./User.js";
-import { createModel as createTodoModel } from "./Todo.js";
+import { createModel as createIdeaModel } from "./Idea.js";
 
 import 'dotenv/config.js'; //read .env file and make it available in process.env
 
@@ -9,13 +9,13 @@ export const database = new Sequelize(process.env.DB_CONNECTION_URI, {
 });
 
 createUserModel(database);
-createTodoModel(database);
+createIdeaModel(database);
 
-export const {User, Todo} = database.models;
+export const {User, Idea} = database.models;
 
 //associations configuration
-User.Todos = User.hasMany(Todo);
-Todo.User = Todo.belongsTo(User);
+User.Ideas = User.hasMany(Idea);
+Idea.User = Idea.belongsTo(User);
 
 //synchronize schema (creates missing tables)
 database.sync().then( () => {

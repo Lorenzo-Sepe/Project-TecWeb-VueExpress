@@ -1,6 +1,9 @@
 <template>
-    <div>
-        <section v-if="editor" class="areaButtons">
+    <div class="p-5">
+        <section
+            v-if="editor"
+            class="areaButtons tw-flex tw-items-center tw-flex-wrap tw-gap-x-4 tw-border-2 tw-border-b-0 tw-border-[#f9b63c] tw-p-2"
+        >
             <div class="GruppoBottoni FomattazioneEDecorazioni">
                 <button
                     class="tagButton"
@@ -44,8 +47,6 @@
             </div>
 
             <div class="GruppoBottoni FontSize">
-                <!--TODO MEttere nel punto giusto -->
-
                 <div
                     @update="
                         editor
@@ -150,6 +151,7 @@
             </div>
         </section>
         <editor-content :editor="editor" />
+        <div class></div>
     </div>
 </template>
 
@@ -163,7 +165,6 @@ import ImageRule from '@tiptap/extension-image';
 import FontSize from 'tiptap-extension-font-size';
 import TextStyle from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
-
 import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
 import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
 import StrikeIcon from 'vue-material-design-icons/FormatStrikethroughVariant.vue';
@@ -190,6 +191,11 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const editor = useEditor({
+    editorProps: {
+        attributes: {
+            class: 'tw-border-2 tw-border-[#f9b63c] tw-p-2 tw-min-h-[12rem] tw-max-h-[12rem] tw-overflow-y-auto tw-outline-none'
+        }
+    },
     content: props.modelValue,
     extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily],
     onUpdate: ({ editor }) => {
@@ -210,19 +216,7 @@ function addImage() {
 }
 </script>
 
-<style>
-.areaButtons {
-    display: flex;
-    flex-wrap: wrap;
-    border-top: 2px solid #f9b63c;
-    border-left: 2px solid #f9b63c;
-    border-right: 2px solid #f9b63c;
-    justify-content: left;
-    margin-top: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-bottom: 0;
-}
+<style scoped>
 input.tagButton {
     width: 4.5rem;
     background-color: #005676;
@@ -257,22 +251,5 @@ button:disabled {
     color: #f9b63c;
     opacity: 0.7;
     background-color: #005676;
-}
-.tiptap {
-    border: 2px solid #f9b63c;
-    min-height: 12rem;
-    max-height: 12rem;
-    padding: auto;
-    overflow-y: auto;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    outline: none;
-}
-.tiptap hr {
-    border: 0.5px solid #f9b63c;
-    margin: 0.5rem;
-}
-.submit {
-    margin-top: 2rem;
 }
 </style>
