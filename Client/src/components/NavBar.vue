@@ -17,15 +17,19 @@
 
         <v-spacer></v-spacer>
 
-        <RouterLink to="/about" class="links">
+        <div class="buttonArea">
+            <RouterLink to="/about" class="links bottone">
             <v-btn class="bottone" rounded="xl" color="#f9b63c" append-icon="mdi-account" variant="tonal">
                 Profilo</v-btn>
         </RouterLink>
-        <RouterLink to="/create-idea" class="links">
+        <RouterLink to="/create-idea" class="links bottone">
             <v-btn rounded="xl" append-icon="mdi-newspaper-plus" color="#f9b63c" variant="tonal">
                 Crea Idea
             </v-btn>
         </RouterLink>
+
+        </div>
+       
     </v-toolbar>
 </template>
 
@@ -42,5 +46,15 @@ import { RouterLink } from 'vue-router';
     font-size: 1rem;
     font-weight: 540;
     margin-right: 1rem;
+}
+
+.buttonArea{
+    display: flex;
+    margin-right: 0.5rem;
+    padding: 0.2rem;
+}
+
+.bottone {
+    margin-right: 0.5rem;
 }
 </style>

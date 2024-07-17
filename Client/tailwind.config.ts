@@ -10,6 +10,7 @@ export default {
       'honey': '#f9b63c',
       'secLight': '#005676',
       'secDark': '#0b1a29',
+      'error':'#B00020',
     },
     extend: {},
   },
