@@ -18,20 +18,19 @@
         <v-spacer></v-spacer>
 
         <RouterLink to="/about" class="links">
-            <v-btn color="#f9b63c" icon variant="tonal"> </v-btn>
+            <v-btn class="bottone" rounded="xl" color="#f9b63c" append-icon="mdi-account" variant="tonal">
+                Profilo</v-btn>
         </RouterLink>
         <RouterLink to="/create-idea" class="links">
-            <v-btn rounded="xl" color="#f9b63c" variant="tonal">
-                <v-icon icon="mdi-home" />
+            <v-btn rounded="xl" append-icon="mdi-newspaper-plus" color="#f9b63c" variant="tonal">
+                Crea Idea
             </v-btn>
         </RouterLink>
     </v-toolbar>
 </template>
 
 <script setup lang="ts">
-import 'vue-material-design-icons/styles.css';
-import NewPost from 'icons/NewspaperPlus.vue';
-import AccountIcon from 'icons/AccountOutline.vue';
+import { RouterLink } from 'vue-router';
 </script>
 
 <style>

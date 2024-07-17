@@ -1,26 +1,34 @@
 <template>
-    <h1>Condividi la tua idea</h1>
+    
     <v-form v-model="valid" @submit.prevent>
-        <v-container>
-            <v-row>
-                <v-row cols="12" sm="6" md="4">
+        <v-container fill-height>
+            <h1>Condividi la tua idea</h1>
+            <v-row no-gutters>
+                <v-col cols="12">
                     <v-text-field
                         v-model="post.title"
                         label="Titolo"
                         required
-                        :rules="[(v) => !!v || 'Il titolo è obbligatorio']"
+                        :rules="[v => !!v || 'Il titolo è obbligatorio']"
                     ></v-text-field>
-
-                    <v-col cols="12" md="4">
-                        <Markdown
-                            v-model="post.content"
-                            required
-                            :rules="[(v) => !!v || 'Il contenuto è obbligatorio']"
-                        />
-                    </v-col>
-                </v-row>
-            </v-row>
-            <v-btn class="mt-2" type="submit" block>Submit</v-btn>
+                </v-col>
+                <v-col cols="12">
+                    <Markdown v-model="post.content" label="Contenuto" required></Markdown>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn
+                        @click="createPost"
+                        :disabled="!valid"
+                        color="#005676"
+                        dark
+                        size="x-large"
+                        rounded
+                        class="mt-4"
+                    >
+                    <span class="bottonetesto">Crea Idea</span>    
+                    </v-btn>
+                </v-col>
+            </v-row>  
         </v-container>
     </v-form>
 </template>
@@ -44,5 +52,8 @@ const createPost = () => {
 <style scoped>
 h1 {
     color: #005676;
+}
+.bottonetesto {
+    @apply tw-text-honey;
 }
 </style>
