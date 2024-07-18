@@ -1,10 +1,11 @@
 import Api from './api';
+import type { CredentialsItem } from './credential-item.type';
 
 export default {
-    register(credentials: {user:string; email: string; password: string }) {
+    register(credentials: CredentialsItem) {
         return Api().post('signup', credentials);
     },
-    login(credentials: {user:string;email: string; password: string }) {
+    login(credentials: CredentialsItem) {
         return Api().post('auth', credentials);
     }
 };

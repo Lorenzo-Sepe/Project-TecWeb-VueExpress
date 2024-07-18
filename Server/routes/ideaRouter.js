@@ -31,7 +31,7 @@ ideaRouter.get("/idea/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   })
 });
 
-ideaRouter.delete("/ideas/:id", ensureUsersModifyOnlyOwnideas, (req, res, next) => {
+ideaRouter.delete("/ideas/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   IdeaController.delete(req).then( (item) => {
     if(item)
       res.json(item);
@@ -43,7 +43,7 @@ ideaRouter.delete("/ideas/:id", ensureUsersModifyOnlyOwnideas, (req, res, next) 
 });
 
 
-ideaRouter.put("/ideas/:id", ensureUsersModifyOnlyOwnideas, (req, res, next) => {
+ideaRouter.put("/ideas/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   IdeaController.update(req.params.id, req.body).then( (item) => {
     if(item)
       res.json(item);

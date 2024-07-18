@@ -5,43 +5,60 @@
                     <v-toolbar-title class="label">Login</v-toolbar-title>
                 </v-toolbar>
 
-                <div class="pl-4 pr-4 pt-2 pb-2">
+                <v-form v-model="form" @submit.prevent="login" class="pl-4 pr-4 pt-2 pb-2">
                     <v-text-field
                     name="user"
                     label="Username"
-                    value="Username"
                     class="input-group--focussed"
-                     
-                    v-model="user"
+                    :rules="[v => !!v || 'Il campo è obbligatorio']" 
+                    v-model="credentials.user"
+                    clearable
                     ></v-text-field>
 
                     <v-text-field
                     name="email"
                     label="Email"
-                    value="Email"
                     class="input-group--focussed"
-                     
-                    v-model="email"
+                    :rules="[v => !!v || 'Il campo è obbligatorio']" 
+                    v-model="credentials.email"
+                    clearable
                     ></v-text-field>
 
                     <v-text-field
+                    type="password"
                     name="password"
                     label="Password"
-                    value="Password"
                     class="input-group--focussed"
-                     
-                    v-model="password"
+                    :rules="passwordRules" 
+                    v-model="credentials.password"
+                    clearable
                     ></v-text-field>
                     <div class="areaButtons">
-                    <v-btn class="bottone" size="large" color="#005676" @click="login"><span class="label">Login</span></v-btn>
-                    <v-btn class="bottone" size="large" color="#005676" @click="register"><span class="label">Registrati</span></v-btn>
+                    <v-btn 
+                        class="bottone" 
+                        size="large" color="#005676" 
+                        :disabled="!form"
+                        :loading="loading"
+                        type="submit">
+                        <span class="label">Login</span>
+                    </v-btn>
+                    <v-btn 
+                        :disabled="!form"
+                        :loading="loading"
+                        class="bottone"
+                        size="large" 
+                        color="#005676" 
+                        @click="register">
+                        <span class="label">Registrati</span>
+                    </v-btn>
                     </div>
                     <div class="err">{{ err }}</div>
                     
-                </div>
+                </v-form>
             </div>
       
     </v-container>
+    <div>{{ credentials.user }}</div>
 </template>
 
       
@@ -50,18 +67,31 @@ import AuthService from '@/services/AuthService';
 //import 
 import { ref } from 'vue';
 
-const user =ref('');
-const email = ref('');
-const password = ref('');
+let passwordRules = [
+    (v: any) => !!v || 'Il campo è obbligatorio',
+    (v: any) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/.test(v) || 'La password deve essere compresa tra gli 8 e 32 caratteri e può comprendere $, !, %, *, #, ?, &',
+];
+let submitted:boolean=false;
+const form=ref(false)
+let loading:boolean=false
+const credentials=ref({
+    user:'',
+    email:'',
+    password:'',
+})
+
 let err = ref('');
 
 
+
 async function login() {
+    submitted=true;
+    
     try {
         await AuthService.login({
-            user: user.value,
-            email: email.value,
-            password: password.value
+            user: credentials.value.user,
+            email: credentials.value.email,
+            password: credentials.value.password
         });
     } catch (error: any) {
         err.value = error.response.data.error;
@@ -70,9 +100,9 @@ async function login() {
 async function register() {
    try  { 
         await AuthService.register({
-        user: user.value,
-        email: email.value,
-        password: password.value
+            user: credentials.value.user,
+            email: credentials.value.email,
+            password: credentials.value.password
         });
     }catch(error:any){
        err.value = error.response.data.error;
@@ -83,7 +113,7 @@ async function register() {
 
 <style scoped>
 .err{
-    color: red;
+    @apply tw-text-error
 }
 
 .label {

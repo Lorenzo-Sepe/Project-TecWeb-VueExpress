@@ -4,7 +4,7 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
-import { todoRouter } from "./routes/todoRouter.js";
+import { ideaRouter } from "./routes/ideaRouter.js";
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
 
@@ -47,7 +47,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 //define routes
 app.use(authenticationRouter);
 app.use(enforceAuthentication);
-app.use(todoRouter);
+app.use(ideaRouter);
 
 
 app.listen(PORT);

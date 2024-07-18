@@ -40,7 +40,6 @@
 import { ref } from 'vue';
 import Markdown from '../components/MarkDown.vue';
 
-
 const valid = ref(true);
 const hasError = ref(false);
 const post = ref({

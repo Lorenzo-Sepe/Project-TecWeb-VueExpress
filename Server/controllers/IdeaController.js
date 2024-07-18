@@ -1,11 +1,15 @@
-import { Idea} from "../models/Database.js";
+import {Idea} from "../models/Database.js";
 
 export class IdeaController {
   
+  static async getIdeasAll(){
+    return Idea.findAll()
+  }
+
   static async getIdeasForCurrentUser(req){
     return Idea.findAll({
       where: {
-        UserUserName: req.username
+        UserMail: req.email
       }
     })
   }

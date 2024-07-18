@@ -16,11 +16,11 @@ export function createModel(database){
       defaultValue: false,
       allowNull: false
     },
-    Upvotes: {
+    upvotes: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    Downvotes: {
+    downvotes: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
