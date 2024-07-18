@@ -10,9 +10,9 @@ export class AuthController {
    */
   static async checkCredentials(req, res){
     let user = new User({ //user data specified in the request
-      userName: req.body.usr,
-      userMail: req.body.mail, 
-      password: req.body.pwd
+      userName: req.body.user,
+      userMail: req.body.email, 
+      password: req.body.password
     });
 
     let found = await User.findOne({
