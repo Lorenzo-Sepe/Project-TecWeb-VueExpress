@@ -2,7 +2,7 @@
     <div class="p-5">
         <section
             v-if="editor"
-            class="areaButtons tw-flex tw-items-center tw-flex-wrap tw-gap-x-4 tw-border-2 tw-border-b-0 tw-border-[#f9b63c] tw-p-2"
+            class="areaButtons tw-flex tw-flex-wrap tw-items-center tw-gap-x-4 tw-border-2 tw-border-b-0 tw-border-[#f9b63c] tw-p-2"
         >
             <div class="GruppoBottoni FomattazioneEDecorazioni">
                 <button
@@ -57,8 +57,8 @@
                     "
                     :class="{
                         active: editor.isActive('textStyle', {
-                            fontSize: convertToFontSize([fontsizeNumber])
-                        })
+                            fontSize: convertToFontSize([fontsizeNumber]),
+                        }),
                     }"
                 >
                     <input
@@ -186,22 +186,22 @@ import 'vue-material-design-icons/styles.css';
 const fontsizeNumber = ref(12);
 
 const props = defineProps({
-    modelValue: String
+    modelValue: String,
 });
 const emit = defineEmits(['update:modelValue']);
 
 const editor = useEditor({
     editorProps: {
         attributes: {
-            class: 'tw-border-2 tw-border-[#f9b63c] tw-p-2 tw-min-h-[12rem] tw-max-h-[12rem] tw-overflow-y-auto tw-outline-none'
-        }
+            class: 'tw-border-2 tw-border-[#f9b63c] tw-p-2 tw-min-h-[12rem] tw-max-h-[12rem] tw-overflow-y-auto tw-outline-none',
+        },
     },
     content: props.modelValue,
     extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily],
     onUpdate: ({ editor }) => {
         console.log(editor.getHTML());
         emit('update:modelValue', editor.getHTML());
-    }
+    },
 });
 
 function convertToFontSize(fontSize: number) {

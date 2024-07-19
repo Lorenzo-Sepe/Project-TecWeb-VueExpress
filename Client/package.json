@@ -11,7 +11,7 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "start-Server": "npm start --prefix ../Server"
+    "start-server": "npm start --prefix ../Server"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
@@ -30,6 +30,7 @@
     "axios": "^1.7.2",
     "lowlight": "^3.1.0",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "sanitize-html": "^2.13.0",
     "tiptap-extension-font-size": "^1.2.0",
     "vue": "^3.4.29",

@@ -44,7 +44,6 @@ export class AuthController {
         error:'Questa email è già stata utilizzata per un altro account.'
       })
     }
-
    
   }
 

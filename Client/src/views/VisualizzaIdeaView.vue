@@ -11,13 +11,12 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 const idea = {
     title: 'Sample idea',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-   
 };
 
 const upvotes = ref(0);

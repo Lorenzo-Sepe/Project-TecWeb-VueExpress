@@ -7,5 +7,5 @@ export default {
     },
     login(credentials: CredentialsItem) {
         return Api().post('auth', credentials);
-    }
+    },
 };

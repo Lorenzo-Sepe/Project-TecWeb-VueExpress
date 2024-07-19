@@ -1,10 +1,10 @@
 export interface IdeaItem {
     id?: number;
     title?: string;
-    content?:string;
+    content?: string;
     upvotes?: number;
-    downvotes?:number;
+    downvotes?: number;
     UserMail?: string;
     createdAt?: Date;
     updatedAt?: Date;
-  }
+}
