@@ -13,7 +13,7 @@ ideaRouter.get("/idea", (req, res, next) => {
 });
 
 ideaRouter.post("/idea", (req, res, next) => {
-  IdeaController.saveidea(req).then( result => {
+  IdeaController.saveIdea(req).then( result => {
     res.json(result);
   }).catch(err => {
     next(err);

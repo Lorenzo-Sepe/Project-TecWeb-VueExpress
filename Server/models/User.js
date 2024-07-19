@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import { createHash } from "crypto";
 
-
 export function createModel(database) {
   database.define('User', {
     // Model attributes are defined here

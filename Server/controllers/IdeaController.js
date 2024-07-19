@@ -21,21 +21,22 @@ export class IdeaController {
   }*/
 
   static async saveIdea(req, res){
-    //save new user
+    //save new idea
     try {
       let idea = new Idea({
         title: req.body.title, 
         content: req.body.content,
         userMail: req.body.email
       });
-      res.send(idea.toJSON)
+      res.status(200).send({
+        message: 'Idea salvata con successo'
+      });
       return idea.save(); //returns a Promise
     } catch (error) {
       res.status(500).send({
         error:'Non è stato possibile salvare la tua idea'
       })
     }
-   
   }
 
   static async findById(req){
