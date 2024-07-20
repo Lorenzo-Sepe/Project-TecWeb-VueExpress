@@ -1,4 +1,7 @@
 import type { Config } from 'tailwindcss'
+import forms from '@tailwindcss/forms';
+import aspectRatio from '@tailwindcss/aspect-ratio';
+import typography from '@tailwindcss/typography';
 
 export default {
   content: [
@@ -11,14 +14,14 @@ export default {
       'secLight': '#005676',
       'secDark': '#0b1a29',
       'error':'#B00020',
+      'success':'#4caf50',
     },
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/typography'),
-    
+    forms,
+    aspectRatio,
+    typography,
   ],
   prefix: 'tw-', // This is the prefix for all the classes that Tailwind will generate
 } satisfies Config

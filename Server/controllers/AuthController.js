@@ -34,12 +34,12 @@ export class AuthController {
    * @returns 
    */
   static async saveUser(req, res){
-    if (this.checkCredentials(req, res)){
+    /*if (this.checkCredentials(req, res)){
       res.status(400).send({
         error:'Questo utente è già registrato.'
       });
       return;
-    }
+    }*/
     //save new user
     try {
       let user = new User({
@@ -47,15 +47,14 @@ export class AuthController {
         userMail: req.body.email,
         password: req.body.password
       });
-  
+      
       res.status(200).send({
         token: AuthController.issueToken(user.userMail)
       });
-      return user.save()
-      //res.send({
-      //  token: AuthController.issueToken(user.userMail)
-      //});
-      ; //returns a Promise
+      //returns a Promise
+      //return user.save();
+     
+      
     } catch (error) {
       console.log(error);
       res.status(400).send({

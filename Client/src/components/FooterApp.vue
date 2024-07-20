@@ -1,28 +1,35 @@
 <template>
     <footer class="footer">
-        <p>&copy; {{ currentYear }} Lorenzo Sepe</p>
-        <p>Scritto in Vue 3, Vite, and Vuetify</p>
-        <a href="https://github.com/Lorenzo-Sepe" target="_blank"
-            ><v-icon color="#f9b63c" icon="mdi-github"></v-icon
-        ></a>
+        <div class="container">
+            <div class="content">
+                <p>Fatto con <a href="https://vuejs.org/" target="_blank"><v-icon size="large" icon="mdi-vuejs"></v-icon></a> e <a href="https://vuetifyjs.com/" target="_blank"><v-icon size="large" icon="$vuetify"></v-icon></a> da Lorenzo Sepe.</p>
+                
+                <br>
+                <div>
+                    <p class="control">
+                        <a class="button" href="https://github.com/Lorenzo-Sepe" target="_blank">
+                            <v-icon icon="mdi-github"></v-icon> <span>GitHub</span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button" href="https://twitter.com/LorenzoSepe1" target="_blank">
+                            <v-icon icon="mdi-twitter"></v-icon> <span>Twitter</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </footer>
 </template>
 
-<script lang="ts" setup>
-const currentYear: number = new Date().getFullYear();
-</script>
-
 <style scoped>
 .footer {
-    background-color: #0b1a29;
-    padding: 20px;
+   background-color: #0b1a29;
+    padding: 2rem 0;
     text-align: center;
-    position: fixed;
-    left: 0;
+    color: #f9b63c ;
+    position: sticky;
     bottom: 0;
-    width: 100%;
-}
-.footer p {
-    color: #f9b63c;
-}
+};
+
 </style>

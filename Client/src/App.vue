@@ -6,6 +6,18 @@ import Footer from './components/FooterApp.vue';
 
 <template>
     <Navbar />
-    <RouterView />
-    <Footer />
+    <div class="corpo">
+        <RouterView />
+    </div>
+    
+    <div class="fondoPagina">
+        <Footer />
+    </div>
+    
 </template>
+
+<style scoped>
+.corpo{
+    min-height: 100vh;
+}
+</style>

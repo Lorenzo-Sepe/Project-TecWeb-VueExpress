@@ -55,7 +55,8 @@
                         <span class="label">Registrati</span>
                     </v-btn>
                 </div>
-                <div class="err">{{ err }}</div>
+                <div v-if="err" class="err">{{ err }}</div>
+                <div v-if="response" class="success">{{ response }}</div>
             </v-form>
         </div>
     </v-container>
@@ -63,19 +64,23 @@
 </template>
 
 <script setup lang="ts">
-import AuthService from '@/services/AuthService';
-//import
+import AuthService from '../services/AuthService';
+import {useUserStore} from '../stores/userStore.ts';
 import { ref } from 'vue';
+
+const storeInstance = useUserStore();
 
 let passwordRules = [
     (v: any) => !!v || 'Il campo è obbligatorio',
     (v: any) =>
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/.test(v) ||
         'La password deve essere compresa tra gli 8 e 32 caratteri e può comprendere $, !, %, *, #, ?, &',
-];
-let submitted: boolean = false;
+    ];
+
+//let submitted: boolean = false;
 const form = ref(false);
 let loading: boolean = false;
+
 const credentials = ref({
     user: '',
     email: '',
@@ -85,14 +90,19 @@ const credentials = ref({
 let err = ref('');
 
 async function login() {
-    submitted = true;
-
+    //submitted = true;
     try {
-        await AuthService.login({
+        const response = await AuthService.login({
             user: credentials.value.user,
             email: credentials.value.email,
             password: credentials.value.password,
         });
+        console.log(response);
+        storeInstance.setUser({
+            user: credentials.value.user,
+            email: credentials.value.email,
+            password: credentials.value.password,
+        })
     } catch (error: any) {
         err.value = error.response.data.error;
     }
@@ -112,7 +122,11 @@ async function register() {
 
 <style scoped>
 .err {
-    @apply tw-text-error;
+    color: #b00020;
+}
+
+.success {
+    color: #4caf50;
 }
 
 .label {

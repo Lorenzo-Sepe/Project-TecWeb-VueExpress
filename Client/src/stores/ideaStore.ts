@@ -11,7 +11,6 @@ export const useIdeaStore = defineStore('idea', () => {
         function updateIdea(newData: {title?: string, content?: string, upvotes?: number, downvotes?: number}){
                 idea.value={...idea.value, ...newData};
             }
-
     return {
         idea,
         updateIdea,

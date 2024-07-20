@@ -18,7 +18,7 @@
         <v-spacer></v-spacer>
 
         <div class="buttonArea">
-            <RouterLink to="/about" class="links bottone">
+            <RouterLink to="/profilo" class="links bottone">
                 <v-btn
                     class="bottone"
                     rounded="xl"

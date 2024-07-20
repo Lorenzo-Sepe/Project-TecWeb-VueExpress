@@ -42,10 +42,10 @@ authenticationRouter.post("/auth", async (req, res) => {
 });
 
 authenticationRouter.post("/signup", saveUser,(req, res, next) => {
-  saveUser(req, res,next);
+  saveUser(req, res, next);
   AuthController.saveUser(req, res).then((user) => {
     res.json(user);
   }).catch((err) => {
-    next({status: 500, message: "Could not save user"});
+    next({status: 500, message: "Could not save user",error:err});
   })
 });
