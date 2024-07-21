@@ -1,52 +1,86 @@
 <template>
-    <div class="profile">
-        <h1>Profile</h1>
-        <div class="username">
-            <label for="username">Username:</label>
-            <input type="text" id="username" v-model="username" />
+    <div >
+        <div class="profile">
+        <div class="info">
+            <ProfiloInfo/>
         </div>
-        <div class="password">
-            <label for="password">Password:</label>
-            <input type="password" id="password" v-model="password" />
+        <div class="idee">
+            <IdeePersonali :ideasArray="ideas" :edit="edit"/>
         </div>
-        <button @click="updateProfile">Update Profile</button>
-        <h2>Previous Posts</h2>
-        <ul>
-            <li v-for="post in previousPosts" :key="post.id">{{ post.title }}</li>
-        </ul>
-    </div>
+        
+        </div>
+
+    </div> 
+
+        
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import ProfiloInfo from '../components/ProfiloInfo.vue'
+import IdeePersonali from '../components/IdeaCardComponent.vue'
 
-const username = ref('');
-const password = ref('');
-const previousPosts = ref([
-    { id: 1, title: 'Post 1' },
-    { id: 2, title: 'Post 2' },
-    { id: 3, title: 'Post 3' },
-]);
 
-function updateProfile() {
-    // Implement your logic to update the profile here
-    console.log('Profile updated');
-}
+const edit:boolean = true;
+const ideas = [
+    {
+        id: 1,
+        title: 'idea 1',
+        upvotes: 10,
+        downvotes: 2,
+        content: 'This is the content for idea 1.',
+        
+    },
+    {
+        id: 2,
+        title: 'idea 2',
+        upvotes: 7,
+        downvotes: 1,
+        content: 'This is the content for idea 2.',
+        
+    },
+    {
+        id: 3,
+        title: 'idea 3',
+        upvotes: 5,
+        downvotes: 3,
+        content: 'This is the content for idea 3.',
+        
+    },
+];
+
 </script>
 
 <style scoped>
+.idee{
+    @media screen and (max-width: 900px) {
+        width: 100%;
+        
+    }
+    @media screen and (min-width: 900px) {
+        width: 50%;
+    }
+}
+
 .profile {
-    max-width: 400px;
-    margin: 0 auto;
+    display: flex;
+    justify-content: left;
+    padding: 1rem;
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+        
+    }
+    @media screen and (min-width: 900px) {
+        flex-direction: row;  
+    }
+    
 }
 
-.username,
-.password {
-    margin-bottom: 10px;
-}
-
-button {
-    display: block;
-    margin-top: 10px;
+.info{
+    @media screen and (max-width: 900px) {
+        width: 100%;
+    }
+    @media screen and (min-width: 900px) {
+        width: 50%;
+    }
 }
 </style>

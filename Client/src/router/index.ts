@@ -47,6 +47,15 @@ const router = createRouter({
         },
 
         {
+            path: '/modificaIdea/:id',
+            name: 'ModificaIdea',
+            component: () => import('../views/ModificaIdeaView.vue'),
+            /* beforeEnter: (to, from, next) => {
+                //TODO aggiungere controllo modifca propria idea
+            }, */
+        },
+
+        {
             path: '/register',
             name: 'register',
             component: () => import('../views/RegisterView.vue'),

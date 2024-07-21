@@ -10,6 +10,6 @@ import Home from '../components/HomeComponent.vue';
 
 <style>
 main {
-    height: auto;
+    height: 100vh;
 }
 </style>

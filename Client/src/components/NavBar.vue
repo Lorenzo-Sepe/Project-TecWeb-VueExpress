@@ -18,25 +18,29 @@
         <v-spacer></v-spacer>
 
         <div class="buttonArea">
-            <RouterLink to="/profilo" class="links bottone">
+            <RouterLink to="/profilo" class="links">
                 <v-btn
                     class="bottone"
                     rounded="xl"
-                    color="#f9b63c"
-                    append-icon="mdi-account"
+                    color="#005676"
                     variant="tonal"
                 >
-                    Profilo</v-btn
-                >
+                   <span style="color: #f9b63c">Profilo 
+                    <v-icon>mdi-account</v-icon>
+                    </span> 
+                   
+                </v-btn>
             </RouterLink>
-            <RouterLink to="/create-idea" class="links bottone">
+            <RouterLink to="/create-idea" class="links">
                 <v-btn
+                    class="bottone"
                     rounded="xl"
-                    append-icon="mdi-newspaper-plus"
-                    color="#f9b63c"
+                    color="#005676"
                     variant="tonal"
                 >
-                    Crea Idea
+                <span style="color: #f9b63c">Crea Idea
+                    <v-icon>mdi-newspaper-plus</v-icon>
+                </span> 
                 </v-btn>
             </RouterLink>
         </div>
@@ -66,5 +70,6 @@ import { RouterLink } from 'vue-router';
 
 .bottone {
     margin-right: 0.5rem;
+    border: 1px solid #005676;
 }
 </style>

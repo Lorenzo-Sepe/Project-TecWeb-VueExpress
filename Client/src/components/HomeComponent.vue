@@ -1,5 +1,6 @@
 <template>
-    <v-card>
+ <div class="container">
+    <div>
         <v-tabs v-model="tab" bg-color="#f9b63c">
             <v-tab value="one"><span class="labels">Più Recenti</span></v-tab>
             <v-tab value="two"><span class="labels">Più Controverse</span></v-tab>
@@ -7,7 +8,7 @@
             <v-tab value="four"><span class="labels">Più Sfavorite</span></v-tab>
         </v-tabs>
 
-        <v-card-text>
+        <div>
             <v-tabs-window v-model="tab">
                 <v-tabs-window-item value="one">
                     <Catalog />
@@ -17,8 +18,9 @@
 
                 <v-tabs-window-item value="three"> Three </v-tabs-window-item>
             </v-tabs-window>
-        </v-card-text>
-    </v-card>
+        </div>
+    </div>
+ </div>
 </template>
 
 <script setup lang="ts">
@@ -31,5 +33,8 @@ const tab = ref('one');
 .labels {
     font-weight: 550;
     color: #005676;
+}
+.container {
+    height: 100vh;
 }
 </style>
