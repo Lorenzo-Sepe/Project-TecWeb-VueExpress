@@ -15,7 +15,6 @@
             <li v-for="post in previousPosts" :key="post.id">{{ post.title }}</li>
         </ul>
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -26,7 +25,7 @@ const password = ref('');
 const previousPosts = ref([
     { id: 1, title: 'Post 1' },
     { id: 2, title: 'Post 2' },
-    { id: 3, title: 'Post 3' }
+    { id: 3, title: 'Post 3' },
 ]);
 
 function updateProfile() {

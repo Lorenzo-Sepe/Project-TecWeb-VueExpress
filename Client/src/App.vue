@@ -9,15 +9,15 @@ import Footer from './components/FooterApp.vue';
     <div class="corpo">
         <RouterView />
     </div>
-    
+
     <div class="fondoPagina">
         <Footer />
     </div>
-    
 </template>
 
 <style scoped>
-.corpo{
+.corpo {
     min-height: 100vh;
+    min-width: 100vw;
 }
 </style>

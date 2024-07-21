@@ -1,12 +1,11 @@
 <template>
     <div>
-        <LogIn />
+        <ProfiloInfo />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import LogIn from '@/components/LogIn.vue';
+import ProfiloInfo from '../components/ProfiloInfo.vue'
 </script>
 
 <style scoped>

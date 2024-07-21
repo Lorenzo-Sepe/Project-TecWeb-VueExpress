@@ -74,6 +74,27 @@ export class AuthController {
     return Jwt.sign({email:userMail}, process.env.TOKEN_SECRET, {expiresIn: `${24*60*60}s`});
   }
 
+  static updateUser(req, res){
+    User.update({
+      userName: req.body.userName,
+      password: req.body.password,
+      votedOn: req.body.votedOn
+    },{
+      where: {
+        userMail: req.body.userMail
+      }
+    }).then((user) => {
+      res.status(200).send({
+        token: AuthController.issueToken(req.body.userMail)
+      });
+    }).catch((err) => {
+      res.status(500).send({
+        error: "Could not update user",
+        details: err
+      });
+    });
+  }
+
   /**
    * Funzione che verifica se un token è valido
    * 

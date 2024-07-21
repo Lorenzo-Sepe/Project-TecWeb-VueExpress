@@ -3,12 +3,11 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { createApp,watch } from 'vue';
+import { createApp, watch } from 'vue';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedState from 'pinia-plugin-persistedstate'; //permanenza stati pinia
 import App from './App.vue';
 import router from './router';
-
 
 const vuetify = createVuetify({
     components,

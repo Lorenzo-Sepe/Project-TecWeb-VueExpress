@@ -39,10 +39,10 @@
 <script setup lang="ts">
 import { onUnmounted, ref } from 'vue';
 import Markdown from '../components/MarkDown.vue';
-import {useIdeaStore} from '../stores/ideaStore';
-import {IdeaService} from '../services/IdeaServices';
+import { useIdeaStore } from '../stores/ideaStore';
+import { IdeaService } from '../services/IdeaServices';
 
-const storeInstance=useIdeaStore();
+const storeInstance = useIdeaStore();
 
 const valid = ref(true);
 const hasError = ref(false);
@@ -52,12 +52,10 @@ const newIdea = ref({
 });
 
 onUnmounted(() => {
-    storeInstance.updateIdea(
-        {
-            title: newIdea.value.title,
-            content: newIdea.value.content,
-        }
-    )
+    storeInstance.updateIdea({
+        title: newIdea.value.title,
+        content: newIdea.value.content,
+    });
 });
 
 const validate = () => {
@@ -90,7 +88,7 @@ const createPost = () => {
     color: #005676;
 }
 .bottonetesto {
-    color: #f9b63c
+    color: #f9b63c;
 }
 
 .valid-input {

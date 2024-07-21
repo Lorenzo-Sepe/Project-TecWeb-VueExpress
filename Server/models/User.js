@@ -25,6 +25,10 @@ export function createModel(database) {
         let hash = createHash("sha256");    
         this.setDataValue('password', hash.update(value).digest("hex"));
       }
+    },
+    votedOn: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: []
     }
   }, { // Other model options go here
     //the actual table name is inferred from the model name (pluralized) by default

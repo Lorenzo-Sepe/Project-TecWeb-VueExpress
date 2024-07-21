@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import AuthService from '../services/AuthService';
-import {useUserStore} from '../stores/userStore.ts';
+import { useUserStore } from '../stores/userStore.ts';
 import { ref } from 'vue';
 
 const storeInstance = useUserStore();
@@ -75,7 +75,7 @@ let passwordRules = [
     (v: any) =>
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/.test(v) ||
         'La password deve essere compresa tra gli 8 e 32 caratteri e può comprendere $, !, %, *, #, ?, &',
-    ];
+];
 
 //let submitted: boolean = false;
 const form = ref(false);
@@ -102,7 +102,7 @@ async function login() {
             user: credentials.value.user,
             email: credentials.value.email,
             password: credentials.value.password,
-        })
+        });
     } catch (error: any) {
         err.value = error.response.data.error;
     }

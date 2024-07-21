@@ -2,73 +2,84 @@
     <div class="idea-view">
         <v-container>
             <div class="idea-container">
-            <div class="idea-title">{{ idea.title }}</div>
-            <div class="idea-content" v-html="idea.content"></div>
+                <div class="idea-title">{{ idea.title }}</div>
+                <div class="idea-content" v-html="idea.content"></div>
 
-            <br>
-            <div class="vote-actions">
-                <v-btn 
-                variant="outlined" 
-                size="x-large" 
-                prepend-icon="mdi-arrow-up-bold-hexagon-outline" 
-                @click="upvote" 
-                :disabled="voted"
-                color="success">
-                    Upvote
-                    <v-chip 
-                        density="confortable" 
-                        size="x-large" 
-                        class="vote-count">
-                        {{ upvotes }}
-                    </v-chip>
-                </v-btn>
-                
-                <v-btn
-                :disabled="voted"
-                 variant="outlined" 
-                 outline size="x-large" 
-                 prepend-icon="mdi-arrow-down-bold-hexagon-outline" 
-                 @click="downvote" 
-                 color="error">
-                    Downvote
-                    <v-chip 
-                        density="confortable" 
-                        size="x-large" 
-                        class="vote-count">
-                        {{ downvotes }}
-                    </v-chip>
-                </v-btn>
-            </div>
+                <br />
+                <div class="vote-actions">
+                    <v-btn
+                        variant="outlined"
+                        size="x-large"
+                        prepend-icon="mdi-arrow-up-bold-hexagon-outline"
+                        @click="upvote"
+                        :disabled="voted"
+                        color="success"
+                    >
+                        Upvote
+                        <v-chip density="confortable" size="x-large" class="vote-count">
+                            {{ upvotes }}
+                        </v-chip>
+                    </v-btn>
+
+                    <v-btn
+                        :disabled="voted"
+                        variant="outlined"
+                        outline
+                        size="x-large"
+                        prepend-icon="mdi-arrow-down-bold-hexagon-outline"
+                        @click="downvote"
+                        color="error"
+                    >
+                        Downvote
+                        <v-chip density="confortable" size="x-large" class="vote-count">
+                            {{ downvotes }}
+                        </v-chip>
+                    </v-btn>
+                </div>
             </div>
         </v-container>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref ,onUpdated} from 'vue';
-import {IdeaService} from '../services/IdeaServices.ts';
+import { ref, onUpdated } from 'vue';
+import { IdeaService } from '../services/IdeaServices.ts';
+import { useUserStore } from '../stores/userStore.ts';
 
+const userStore = useUserStore();
 let voted = ref(false);
 
 const idea = {
+    id: 1,
     title: 'Sample idea',
     content: '<h1>Lorem</h1> ipsum dolor sit amet, consectetur adipiscing elit.',
     upvotes: 0,
-    downvotes: 0
+    downvotes: 0,
 };
 
 const upvotes = ref(0);
 const downvotes = ref(0);
 
+const userVoted = () => {
+    voted.value = true;
+    userStore.updateUser({
+        votedOn: user.votedOn.push(idea.id),
+    });
+};
+
 const upvote = () => {
+    userVoted();
     voted.value = true;
-    upvotes.value++; };
+    upvotes.value++;
+};
 
-const downvote = () => {    
+const downvote = () => {
+    userVoted();
     voted.value = true;
-    downvotes.value++; };
+    downvotes.value++;
+};
 
-async function updateIdea(){
+async function updateIdea() {
     await IdeaService.updateIdea({
         upvotes: upvotes.value,
         downvotes: downvotes.value,
@@ -78,13 +89,12 @@ async function updateIdea(){
 onUpdated(() => {
     updateIdea();
 });
-
 </script>
 
 <style scoped>
 .idea-view {
     display: flex;
-    
+
     height: 100vh;
 }
 
@@ -116,4 +126,3 @@ br {
     color: #005676;
 }
 </style>
-
