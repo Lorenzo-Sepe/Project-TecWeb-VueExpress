@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="cardSizing">
         <v-container>
             <v-row>
                 <v-col v-for="idea in ideasArray" :key="idea.id" cols="12" sm="6" md="4">
@@ -56,7 +56,6 @@ const props = defineProps<{
 .title {
     height: 2rem;
     color: rgb(249 182 60/1);
-
     background-color: rgb(0 86 118 / 1) /* #005676 */;
     font-size: 1.5rem;
     padding-left: 0.5rem;

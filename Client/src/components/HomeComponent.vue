@@ -11,12 +11,13 @@
         <div>
             <v-tabs-window v-model="tab">
                 <v-tabs-window-item value="one">
-                    <Catalog />
+                    <Catalog ordinamento="recenti"></Catalog>
                 </v-tabs-window-item>
 
-                <v-tabs-window-item value="two"> Two </v-tabs-window-item>
+                <v-tabs-window-item value="two"> <Catalog ordinamento="controverse"></Catalog> </v-tabs-window-item>
 
-                <v-tabs-window-item value="three"> Three </v-tabs-window-item>
+                <v-tabs-window-item value="three"> <Catalog ordinamento="popolari"></Catalog> </v-tabs-window-item>
+                <v-tabs-window-item value="four"> <Catalog ordinamento="sfavorite"></Catalog> </v-tabs-window-item>
             </v-tabs-window>
         </div>
     </div>

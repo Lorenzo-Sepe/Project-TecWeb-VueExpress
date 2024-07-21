@@ -5,19 +5,31 @@ import Footer from './components/FooterApp.vue';
 </script>
 
 <template>
-    <Navbar />
-    <div class="corpo">
+    <div class="universale">
+        <Navbar />
+            <div class="corpo">
         <RouterView />
-    </div>
+        </div>
 
-    <div class="fondoPagina">
-        <Footer />
+        <div class="fondoPagina">
+            <Footer />
+        </div>
     </div>
 </template>
 
 <style scoped>
 .corpo {
-    min-height: 100vh;
-    min-width: 100vw;
+    min-height: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+.universale{
+    min-height: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    overflow-y: scroll;
 }
 </style>

@@ -44,5 +44,7 @@
     color: #f9b63c;
     position: sticky;
     bottom: 0;
+    width: 100%;
+    
 }
 </style>
