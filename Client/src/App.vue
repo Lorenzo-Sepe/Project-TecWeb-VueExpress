@@ -7,8 +7,8 @@ import Footer from './components/FooterApp.vue';
 <template>
     <div class="universale">
         <Navbar />
-            <div class="corpo">
-        <RouterView />
+        <div class="corpo">
+            <RouterView />
         </div>
 
         <div class="fondoPagina">
@@ -25,7 +25,7 @@ import Footer from './components/FooterApp.vue';
     max-height: 100%;
     overflow-y: scroll;
 }
-.universale{
+.universale {
     min-height: 100%;
     max-width: 100%;
     min-width: 100%;

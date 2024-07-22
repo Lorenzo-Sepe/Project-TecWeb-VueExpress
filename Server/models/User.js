@@ -6,8 +6,7 @@ export function createModel(database) {
     // Model attributes are defined here
     userName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      
+      allowNull: false
     },
     userMail:{
       type: DataTypes.STRING,
@@ -28,7 +27,7 @@ export function createModel(database) {
     },
     votedOn: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: []
+      defaultValue: null
     }
   }, { // Other model options go here
     //the actual table name is inferred from the model name (pluralized) by default

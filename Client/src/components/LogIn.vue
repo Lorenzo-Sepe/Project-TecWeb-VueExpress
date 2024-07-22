@@ -10,7 +10,7 @@
                     name="user"
                     label="Username"
                     class="input-group--focussed"
-                    :rules="[(v) => !!v || 'Il campo è obbligatorio']"
+                    :rules="[(v) => (v && v.length > 2) || 'Il campo deve contenere almeno 3 caratteri']"
                     v-model="credentials.user"
                     clearable
                 ></v-text-field>
@@ -56,17 +56,20 @@
                     </v-btn>
                 </div>
                 <div v-if="err" class="err">{{ err }}</div>
-                <div v-if="response" class="success">{{ response }}</div>
             </v-form>
         </div>
     </v-container>
-    <div>{{ credentials.user }}</div>
 </template>
 
 <script setup lang="ts">
+import type { AxiosError } from 'axios';
 import AuthService from '../services/AuthService';
-import { useUserStore } from '../stores/userStore.ts';
+import { useUserStore } from '../stores/userStore';
 import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter();
+const route = useRoute();
 
 const storeInstance = useUserStore();
 
@@ -74,12 +77,12 @@ let passwordRules = [
     (v: any) => !!v || 'Il campo è obbligatorio',
     (v: any) =>
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/.test(v) ||
-        'La password deve essere compresa tra gli 8 e 32 caratteri e può comprendere $, !, %, *, #, ?, &',
+        'La password deve essere compresa tra gli 8 e 32 caratteri, deve contenere un numero, e può comprendere $, !, %, *, #, ?, &',
 ];
 
 //let submitted: boolean = false;
 const form = ref(false);
-let loading: boolean = false;
+let loading= ref(false)
 
 const credentials = ref({
     user: '',
@@ -90,32 +93,59 @@ const credentials = ref({
 let err = ref('');
 
 async function login() {
-    //submitted = true;
+    //TODO il routher.push va in conlitto con la route guard e non permette la naviazione
+    loading.value = true;
     try {
         const response = await AuthService.login({
             user: credentials.value.user,
             email: credentials.value.email,
             password: credentials.value.password,
         });
-        console.log(response);
+        
+        const token = response.token;
+
         storeInstance.setUser({
-            user: credentials.value.user,
-            email: credentials.value.email,
+            userName: credentials.value.user,
+            userMail: credentials.value.email,
             password: credentials.value.password,
+            token: token,
         });
-    } catch (error: any) {
-        err.value = error.response.data.error;
+        loading.value=false;
+        router.push({path:'/profilo'})
+    } catch (error: unknown) {
+        loading.value = false;
+        if(Boolean(error!.response)) {
+            error = <AxiosError>error;
+            err.value = error.response.data.message;
+        }
     }
+
+        
 }
 async function register() {
+    loading.value = true;
     try {
-        await AuthService.register({
+        const response = await AuthService.register({
             user: credentials.value.user,
             email: credentials.value.email,
             password: credentials.value.password,
         });
-    } catch (error: any) {
-        err.value = error.response.data.error;
+        const token = response.token;
+        storeInstance.setUser({
+            userName: credentials.value.user,
+            userMail: credentials.value.email,
+            password: credentials.value.password,
+            token: token,
+        });
+        loading.value = false;
+        router.push({path:'/profilo'})
+        
+    } catch (error: unknown) {
+        loading.value = false;
+        if(Boolean(error!.response)) {
+            error = <AxiosError>error;
+            err.value = error.response.data.message;
+        }
     }
 }
 </script>

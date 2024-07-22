@@ -21,5 +21,5 @@ Idea.User = Idea.belongsTo(User);
 database.sync().then( () => {
   console.log("Database synced correctly");
 }).catch( err => {
-  console.err("Error with database synchronization: " + err.message);
+  console.error("Error with database synchronization: %s", err.message);
 });

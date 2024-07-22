@@ -1,4 +1,5 @@
 <template>
+    <div class="container">
     <v-form v-model="valid" @submit.prevent>
         <v-container fill-height>
             <h1 class="intestazione">Condividi la tua idea</h1>
@@ -34,6 +35,7 @@
             </v-row>
         </v-container>
     </v-form>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -41,18 +43,23 @@ import { onUnmounted, ref } from 'vue';
 import Markdown from '../components/MarkDown.vue';
 import { useIdeaStore } from '../stores/ideaStore';
 import { IdeaService } from '../services/IdeaServices';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/userStore';
 
-const storeInstance = useIdeaStore();
+const ideaInstance = useIdeaStore();
+const userInstance = useUserStore();
 
 const valid = ref(true);
 const hasError = ref(false);
 const newIdea = ref({
-    title: ref(storeInstance.idea.title),
-    content: ref(storeInstance.idea.content),
+    title: ref(ideaInstance.idea.title),
+    content: ref(ideaInstance.idea.content),
+    userMail: userInstance.user.userMail,
+
 });
 
 onUnmounted(() => {
-    storeInstance.updateIdea({
+    ideaInstance.updateIdea({
         title: newIdea.value.title,
         content: newIdea.value.content,
     });
@@ -73,8 +80,6 @@ const validate = () => {
 };
 const createPost = () => {
     validate();
-    // Logic to create the post
-    // You can use the post.value.title and post.value.content values to send the data to the server
     try {
         IdeaService.createIdea(newIdea.value);
     } catch (error) {
@@ -84,6 +89,9 @@ const createPost = () => {
 </script>
 
 <style scoped>
+.container{
+    height: 100vh;
+}
 .intestazione {
     color: #005676;
 }

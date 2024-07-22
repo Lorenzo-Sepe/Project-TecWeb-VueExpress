@@ -1,39 +1,88 @@
 <template>
-    <div class="container">
-        <v-pagination v-model=currentPage :length=lunghezzaLista></v-pagination>
-        <IdeaCard :ideasArray="visibleIdeas" :edit="edit" class="cardsSize"/>
-        <v-pagination v-model=currentPage :length=lunghezzaLista></v-pagination>
+    <div v-if="loading" class="tw-p-3 tw-gap-2">
+        <v-skeleton-loader type="card"></v-skeleton-loader>
+        <v-skeleton-loader type="card"></v-skeleton-loader>
+        <v-skeleton-loader type="card"></v-skeleton-loader>
+    </div>
+
+    <div class="container" v-else>
+        <v-pagination v-model="currentPage" :length="lunghezzaLista"></v-pagination>
+        <IdeaCard :ideasArray="sortedIdeas" :edit="edit" class="cardsSize" />
+        <v-pagination v-model="currentPage" :length="lunghezzaLista"></v-pagination>
     </div>
 </template>
 
 <script setup lang="ts">
-import IdeaCard from '../components/IdeaCardComponent.vue'
+import IdeaCard from '../components/IdeaCardComponent.vue';
 import { IdeaService } from '@/services/IdeaServices';
-import { onMounted,computed ,ref} from 'vue';
+import { onMounted, computed, ref } from 'vue';
 
-let loading: boolean = true;
+let loading=ref(false);
 
-const  props = defineProps({
+const props = defineProps({
     ordinamento: String,
-})
+});
 
- /* onMounted(() => {
-    fetchIdeas();
-});  */
+onMounted(() => {
+    //fetchIdeas();
+    switch(props.ordinamento) {
+        case 'popolari':
+            ideas.sort((a, b) => b.upvotes - a.upvotes);
+            break;
+        case 'sfavorite':
+            ideas.sort((a, b) => b.downvotes - a.downvotes);
+            break;
+        case 'controverse':
+            ideas.sort((a, b) => b.upvotes - b.downvotes - (a.upvotes - a.downvotes));
+            break;
+        default:
+            ideas.sort((a, b) => b.id - a.id);
+            break;
+    }
+}); 
 
 const currentPage = ref(1);
 const pageSize = 10;
-const start = (currentPage.value - 1) * pageSize
-const end = (start + pageSize)-1;
-
+const start = (currentPage.value - 1) * pageSize;
+const end = start + pageSize - 1;
 
 const visibleIdeas = computed(() => {
-    const start = (currentPage.value - 1) * pageSize
-    const end = (start + pageSize);
+    const start = (currentPage.value - 1) * pageSize;
+    const end = start + pageSize;
     return ideas.slice(start, end);
 });
 
-const edit:boolean = false;
+const sortedIdeas = computed(()=>{
+    let ris = [];
+    const start = (currentPage.value - 1) * pageSize;
+    const end = start + pageSize;
+    switch(props.ordinamento) {
+        case 'popolari':
+            ris = [...ideas].sort((a, b) => b.upvotes - a.upvotes);
+            return ris.slice(start, end);
+            
+        case 'sfavorite':
+            ris = [...ideas].sort((a, b) => b.downvotes - a.downvotes);
+            return ris.slice(start, end);
+            
+        case 'controverse':
+            //ris = [...ideas].sort((a, b) => (b.upvotes / b.downvotes) - (a.upvotes / a.downvotes));
+            ris = [...ideas].sort((a, b) => {
+                const ratioA = a.upvotes / a.downvotes;
+                const ratioB = b.upvotes / b.downvotes;
+                return Math.abs(ratioA - 0) - Math.abs(ratioB - 0);
+            });
+            return ris.slice(start, end);
+           
+        default:
+            ris = [...ideas].sort((a, b) => b.id - a.id);
+            return ris.slice(start, end);
+            
+    }
+}
+)
+
+const edit: boolean = false;
 const ideas = [
     {
         id: 1,
@@ -41,7 +90,7 @@ const ideas = [
         upvotes: 10,
         downvotes: 2,
         content: 'This is the content for idea 1.',
-        
+        userMail: 'emily.brookshire@fakemail.com'
     },
     {
         id: 2,
@@ -49,7 +98,7 @@ const ideas = [
         upvotes: 7,
         downvotes: 1,
         content: 'This is the content for idea 2.',
-        
+        userMail: 'sophia.rivers@fauxemail.io'
     },
     {
         id: 3,
@@ -57,7 +106,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'hannah.summers@pretendmail.org'
     },
     {
         id: 4,
@@ -65,7 +114,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'marcus.davison@bogusmail.co'
     },
     {
         id: 5,
@@ -73,7 +122,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'hannah.summers@pretendmail.org'
     },
     {
         id: 6,
@@ -81,7 +130,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'jackson.tyler@madeupmail.net'
     },
     {
         id: 7,
@@ -89,7 +138,7 @@ const ideas = [
         upvotes: 10,
         downvotes: 2,
         content: 'This is the content for idea 1.',
-        
+        userMail: 'jackson.tyler@madeupmail.net'
     },
     {
         id: 8,
@@ -97,7 +146,7 @@ const ideas = [
         upvotes: 7,
         downvotes: 1,
         content: 'This is the content for idea 2.',
-        
+        userMail: 'marcus.davison@bogusmail.co'
     },
     {
         id: 9,
@@ -105,7 +154,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'emily.brookshire@fakemail.com'
     },
     {
         id: 10,
@@ -113,7 +162,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'hannah.summers@pretendmail.org'
     },
     {
         id: 11,
@@ -121,7 +170,7 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'marcus.davison@bogusmail.co'
     },
     {
         id: 12,
@@ -129,13 +178,13 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: 'emily.brookshire@fakemail.com'
     },
 ];
 
 // TODO far funzionare le API REST
 async function fetchIdeas() {
-    loading = true;
+    loading.value = true;
     try {
         const response = await IdeaService.getIdeas();
         console.log(response);
@@ -144,23 +193,24 @@ async function fetchIdeas() {
     }
 }
 
-let arrotondamento = (ideas.length) + (pageSize - (ideas.length % pageSize));
-let lunghezzaLista = ((arrotondamento)/pageSize);
+
+
+let arrotondamento = ideas.length + (pageSize - (ideas.length % pageSize));
+let lunghezzaLista = arrotondamento / pageSize;
 lunghezzaLista = Math.floor(lunghezzaLista);
 </script>
 
 <style scoped>
-div.container{
+div.container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     height: 100%;
 }
-.cardsSize{
+.cardsSize {
     display: flex;
     flex-grow: true;
     width: 100%;
 }
-
 </style>

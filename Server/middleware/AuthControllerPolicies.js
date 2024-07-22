@@ -2,7 +2,7 @@ import Joi from 'joi'
 
 export function saveUser(req, res, next) {
     const schema = Joi.object({
-        user: Joi.string().alphanum().min(3).max(30).required(),
+        user: Joi.string().regex(/^[a-zA-Z0-9-_]{3,}$/).required(),
         email: Joi.string().regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/).required(),
         password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/).required()
     });
@@ -13,27 +13,32 @@ export function saveUser(req, res, next) {
         switch (error.details[0].context.key) {
             case 'user':
                 res.status(400).send({
-                    error: 'You must provide a valid username'
+                    error: `Devi fornire un username valido:
+                    <br>
+                    1. Deve contenere solo lettere, numeri e "-,_".
+                    `
                 });
                 break;
             case 'email':
                 res.status(400).send({
-                    error: 'You must provide a valid email address'
+                    error: 'Devi fornire un indirizzo email valido'
                 });
                 break;
             case 'password':
                 res.status(400).send({
-                    error: `The password provided failed to match the following rules:
+                    error: `La password deve rispettare le seguenti regole:
                     <br>
-                    1. It must contain the following characters: lower case, upper case, numerics, specials (@, $, !, %,*, #, ?, &).
+                    1. Deve contenere i seguenti caratteri: minuscole, maiuscole, numeri.
                     <br>
-                    2. It must be at least 8 characters in length and not greater than 32 characters in length.
+                    2. Può contenere caratteri speciali (@, $, !, %, *, #, ?, &).
+                    <br>
+                    3. Deve essere lunga almeno 8 caratteri e non superare i 32 caratteri.
                     `
                 });
                 break;
             default:
                 res.status(400).send({
-                    error: 'Invalid registration information'
+                    error: 'Informazioni di registrazione non valide'
                 });
         }
     } else {

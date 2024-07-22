@@ -19,28 +19,19 @@
 
         <div class="buttonArea">
             <RouterLink to="/profilo" class="links">
-                <v-btn
-                    class="bottone"
-                    rounded="xl"
-                    color="#005676"
-                    variant="tonal"
-                >
-                   <span style="color: #f9b63c">Profilo 
-                    <v-icon>mdi-account</v-icon>
-                    </span> 
-                   
+                <v-btn class="bottone" rounded="xl" color="#005676" variant="tonal">
+                    <span style="color: #f9b63c"
+                        >Profilo
+                        <v-icon>mdi-account</v-icon>
+                    </span>
                 </v-btn>
             </RouterLink>
             <RouterLink to="/create-idea" class="links">
-                <v-btn
-                    class="bottone"
-                    rounded="xl"
-                    color="#005676"
-                    variant="tonal"
-                >
-                <span style="color: #f9b63c">Crea Idea
-                    <v-icon>mdi-newspaper-plus</v-icon>
-                </span> 
+                <v-btn class="bottone" rounded="xl" color="#005676" variant="tonal">
+                    <span style="color: #f9b63c"
+                        >Crea Idea
+                        <v-icon>mdi-newspaper-plus</v-icon>
+                    </span>
                 </v-btn>
             </RouterLink>
         </div>

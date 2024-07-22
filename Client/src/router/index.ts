@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import { useUserStore } from '../stores/userStore';
+import { useIdeaStore } from '../stores/ideaStore';
 import AuthService from '@/services/AuthService';
 
 const router = createRouter({
@@ -16,17 +17,16 @@ const router = createRouter({
             path: '/profilo',
             name: 'Profilo',
             component: () => import('../views/ProfiloView.vue'),
-            /* beforeEnter: (to, from, next) => {
-                //TODO aggiungere un controllo sul jwt per vedere se l'utente è loggato
+            beforeEnter: (to, from, next) => {
                 const userStore = useUserStore();
-                //console.log(userStore.user.token);
+                // TODO date il token indietro
                 if (userStore.user.token === '') {
                     alert('Devi essere Autenticato per accedere a questa pagina');
                     next({ name: 'register' });
                 } else {
                     next();
                 }
-            }, */
+            },
         },
 
         {
@@ -52,7 +52,26 @@ const router = createRouter({
             component: () => import('../views/ModificaIdeaView.vue'),
             /* beforeEnter: (to, from, next) => {
                 //TODO aggiungere controllo modifca propria idea
-            }, */
+                const userStore = useUserStore();
+                AuthService.canUserModifyIdea(
+                    userStore.user.userMail,
+                    userStore.user.token,
+                ).then((response) => {
+                    console.log(response);
+                    const res = JSON.parse(response);
+                });
+            } */
+           //verificare
+           beforeEnter: (to, from, next) => {
+                const userStore = useUserStore();
+                const ideaStore = useIdeaStore();
+                if (userStore.user.userMail === ideaStore.idea.userMail) {
+                    next();
+                }else{
+                    alert('Non puoi modificare un idea che non ti appartiene');
+                    next({ name: 'profile' });
+                };
+            }
         },
 
         {

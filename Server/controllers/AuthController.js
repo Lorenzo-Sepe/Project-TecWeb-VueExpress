@@ -3,7 +3,6 @@ import Jwt from "jsonwebtoken";
 
 
 export class AuthController {
-
   /**
    * Handles post requests on /auth. Checks that the given credentials are valid
    * @param {http.IncomingMessage} request 
@@ -33,35 +32,27 @@ export class AuthController {
    * @param {http.ServerResponse} response 
    * @returns 
    */
-  static async saveUser(req, res){
-    /*if (this.checkCredentials(req, res)){
-      res.status(400).send({
-        error:'Questo utente è già registrato.'
-      });
-      return;
-    }*/
+  static async saveUser(req) {
     //save new user
-    try {
-      let user = new User({
+    return new Promise((ok, fail) => {
+      User.create({
         userName: req.body.user, 
         userMail: req.body.email,
         password: req.body.password
-      });
-      
-      res.status(200).send({
-        token: AuthController.issueToken(user.userMail)
-      });
-      //returns a Promise
-      //return user.save();
-     
-      
-    } catch (error) {
-      console.log(error);
-      res.status(400).send({
-        error:'Questa email è già stata utilizzata per un altro account.'
       })
-    }
-   
+      .then(user => ok([ 200,  { token: AuthController.issueToken(user.userMail) } ]))
+      .catch(e => {
+        if(Boolean( e.errors)) {
+          const foundUniqueViolation = e.errors.find(e => e.type === 'unique violation');
+  
+          if(foundUniqueViolation) {
+            ok([ 409, {message: `L'utente ${foundUniqueViolation.value} già esiste.`}])
+          }
+        }
+        else
+          fail(e);
+      });
+    })
   }
 
   /**

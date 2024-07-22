@@ -24,7 +24,7 @@ export function createModel(database){
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    UserMail: {
+    userMail: {
       type: DataTypes.TEXT,
       allowNull: false
     },

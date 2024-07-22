@@ -5,10 +5,15 @@
                 <v-col v-for="idea in ideasArray" :key="idea.id" cols="12" sm="6" md="4">
                     <v-card color="#005676">
                         <template v-slot:title
-                            ><span class="title">{{ idea.title }}</span></template>
-                        <v-card-text class="bg-surface-light pt-4">{{
-                            idea.content
-                        }}</v-card-text>
+                            ><span class="title">{{ idea.title }}</span></template
+                        >
+                        <v-card-subtitle class="bg-surface-light">
+                            <v-chip class="chip-space" prepend-icon="mdi-account">
+                                {{ idea.userMail }}
+                            </v-chip>
+                        </v-card-subtitle>
+                        
+                        <v-card-text class="bg-surface-light pt-4">{{ idea.content }}</v-card-text>
                         <v-card-item class="bg-surface-light pt-4">
                             <v-chip class="chip-space" prepend-icon="mdi-plus-circle">
                                 {{ idea.upvotes }}
@@ -17,15 +22,17 @@
                                 {{ idea.downvotes }}
                             </v-chip>
                         </v-card-item>
-                        <v-card-actions class="bg-surface-light pt-4">
+                        <v-card-actions class="bg-surface-light pt-4 ">
                             <router-link :to="{ name: 'VisualizzaIdea', params: { id: idea.id } }">
                                 <v-btn color="#005676">Leggi di più</v-btn>
                             </router-link>
-                            <div v-if=edit>
-                                <router-link :to="{ name: 'ModificaIdea', params: { id: idea.id } }">
-                                <v-btn color="#005676">Modifica Idea</v-btn>
-                            </router-link>
-                            </div>
+                            <p v-if="edit" class="tw-block">
+                                <router-link
+                                    :to="{ name: 'ModificaIdea', params: { id: idea.id } }"
+                                >
+                                    <v-btn @click="caricaIdea(idea.id)" color="#005676">Modifica Idea</v-btn>
+                                </router-link>
+                            </p>
                         </v-card-actions>
                     </v-card>
                 </v-col>
@@ -35,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { useIdeaStore } from '@/stores/ideaStore';
+
 
 const props = defineProps<{
     ideasArray: {
@@ -43,10 +52,21 @@ const props = defineProps<{
         upvotes: number;
         downvotes: number;
         content: string;
+        userMail: string;
     }[];
     edit: boolean;
 }>();
 
+
+function getIdeaById(id: string | number) {
+    return props.ideasArray.find((idea) => idea.id === id);
+}
+
+function caricaIdea(id: string | number) {
+    const ideaInstance = useIdeaStore();
+    let ideaSelected = getIdeaById(id) as { title: string; content: string; upvotes: number; downvotes: number; userMail: string; };
+    ideaInstance.setIdea(ideaSelected);
+}
 </script>
 
 <style scoped>

@@ -1,3 +1,5 @@
+
+
 import express from "express";
 import { AuthController } from "../controllers/AuthController.js";
 import {saveUser} from "../middleware/AuthControllerPolicies.js";
@@ -34,18 +36,19 @@ export const authenticationRouter = express.Router();
 authenticationRouter.post("/auth", async (req, res) => {
   let isAuthenticated = await AuthController.checkCredentials(req, res);
   if(isAuthenticated){
-    res.json(AuthController.issueToken(req.body.usr));
+    res.json({token: AuthController.issueToken(req.body.usr)});
   } else {
     res.status(401);
     res.json( {error: "Invalid credentials. Try again."});
   }
 });
 
-authenticationRouter.post("/signup", saveUser,(req, res, next) => {
+authenticationRouter.post("/signup", saveUser,  (req, res, next) => {
   saveUser(req, res, next);
-  AuthController.saveUser(req, res).catch((err) => {
-    next({status: 500, message: "Could not save user",error:err});
-  })
+
+  AuthController.saveUser(req, res)
+    .then(([ status, tokenObj ]) => res.status(status).json(tokenObj))
+    .catch(e => console.error(e));
 });
 
 authenticationRouter.put("/editUser", (req, res, next) => {
@@ -53,3 +56,9 @@ authenticationRouter.put("/editUser", (req, res, next) => {
     next({status: 500, message: "Could not update user",error:err});
   })
 });
+
+authenticationRouter.post("/editIdea", (req, res, next) => {
+  AuthController.canUserModifyIdea(req).catch((err) => {
+    next({status: 500, message: "Could not update idea",error:err});
+  })
+});    

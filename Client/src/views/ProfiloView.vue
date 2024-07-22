@@ -1,26 +1,26 @@
 <template>
-    <div >
-        <div class="profile">
-        <div class="info">
-            <ProfiloInfo/>
-        </div>
-        <div class="idee">
-            <IdeePersonali :ideasArray="ideas" :edit="edit"/>
-        </div>
+    <div class="grid-container">
         
-        </div>
-
-    </div> 
-
-        
+            <ProfiloInfo class="profilo"/>
+            <div class="idee">
+            <IdeePersonali  :ideasArray="ideas" :edit="edit" />
+            <v-pagination  v-model="currentPage" :length="lunghezzaLista"></v-pagination>
+            </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import ProfiloInfo from '../components/ProfiloInfo.vue'
-import IdeePersonali from '../components/IdeaCardComponent.vue'
+import ProfiloInfo from '../components/ProfiloInfo.vue';
+import IdeePersonali from '../components/IdeaCardComponent.vue';
+import { useUserStore } from '@/stores/userStore';
+import { ref } from 'vue';
+
+const currentPage = ref(1);
+const pageSize = 10;
 
 
-const edit:boolean = true;
+const userInstance = useUserStore();
+const edit: boolean = true;
 const ideas = [
     {
         id: 1,
@@ -28,7 +28,7 @@ const ideas = [
         upvotes: 10,
         downvotes: 2,
         content: 'This is the content for idea 1.',
-        
+        userMail: userInstance.user.userMail,
     },
     {
         id: 2,
@@ -36,7 +36,7 @@ const ideas = [
         upvotes: 7,
         downvotes: 1,
         content: 'This is the content for idea 2.',
-        
+        userMail: userInstance.user.userMail,
     },
     {
         id: 3,
@@ -44,43 +44,44 @@ const ideas = [
         upvotes: 5,
         downvotes: 3,
         content: 'This is the content for idea 3.',
-        
+        userMail: userInstance.user.userMail,
     },
 ];
 
+let arrotondamento = ideas.length + (pageSize - (ideas.length % pageSize));
+let lunghezzaLista = arrotondamento / pageSize;
+lunghezzaLista = Math.floor(lunghezzaLista);
 </script>
 
 <style scoped>
-.idee{
-    @media screen and (max-width: 900px) {
-        width: 100%;
-        
-    }
-    @media screen and (min-width: 900px) {
-        width: 50%;
-    }
-}
-
-.profile {
-    display: flex;
-    justify-content: left;
+.grid-container {
     padding: 1rem;
-    @media screen and (max-width: 900px) {
-        flex-direction: column;
+  display: grid;
+  height: 100vh;
+  gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+    "profilo idee"
+    "empty idee"
+    "empty idee";
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        "profilo"
+        "pagination"
+        "idee";
         
     }
-    @media screen and (min-width: 900px) {
-        flex-direction: row;  
-    }
-    
 }
 
-.info{
-    @media screen and (max-width: 900px) {
-        width: 100%;
-    }
-    @media screen and (min-width: 900px) {
-        width: 50%;
-    }
+.profilo {
+    grid-area: profilo;
 }
+
+.idee {
+    grid-area: idee;
+}
+
+
 </style>

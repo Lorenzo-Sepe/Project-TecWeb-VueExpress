@@ -9,18 +9,35 @@ export const useIdeaStore = defineStore(
             content: '',
             upvotes: 0,
             downvotes: 0,
+            userMail: '',
         });
+
+        function setIdea(   
+            newIdea:{
+                title: string,
+                content: string,
+                upvotes: number,
+                downvotes: number,
+                userMail: string,
+            }
+        ) {
+            idea.value = newIdea
+        }
+
         function updateIdea(newData: {
             title?: string;
             content?: string;
             upvotes?: number;
             downvotes?: number;
+            userMail?: string;
         }) {
             idea.value = { ...idea.value, ...newData };
         }
+
         return {
             idea,
             updateIdea,
+            setIdea,
         };
     },
     { persist: true }

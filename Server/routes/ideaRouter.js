@@ -12,13 +12,12 @@ ideaRouter.get("/idea", (req, res, next) => {
   });
 });
 
-ideaRouter.post("/idea", (req, res, next) => {
-  IdeaController.saveIdea(req).then( result => {
-    res.json(result);
-  }).catch(err => {
-    next(err);
-  });
+ideaRouter.post("/idea", (req, res) => {
+  IdeaController.saveIdea(req, res)
+  .then(([ status, message ]) => res.status(status).json(message))
+  .catch(e => console.error(e));  
 });
+
 
 ideaRouter.get("/idea/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   IdeaController.findById(req).then( (item) => {

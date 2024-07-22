@@ -4,18 +4,24 @@ import { AuthController } from "../controllers/AuthController.js";
  * This middleware ensures that the user is currently authenticated. If not,
  * redirects to login with an error message.
  */
-export function enforceAuthentication(req, res, next){
+export const enforceAuthentication = (excludeRoutes = []) => (req, res, next) => {
+  if(excludeRoutes.map(r => new RegExp(r)).some(r => r.test(req.path))) {
+    return; // ignore authentication on these paths
+  }
+  
   const authHeader = req.headers['authorization']
-  const token = authHeader?.split(' ')[1];
-  if(!token){
-    next({status: 401, message: "Unauthorized"});
+  if(!authHeader){
+    res.status(401).send({message:"Unauthorized"});
+    next("Unauthorized, Il token non è stato fornito");
     return;
   }
-  AuthController.isTokenValid(token, (err, decodedToken) => {
+  AuthController.isTokenValid(authHeader, (err, decodedToken) => {
     if(err){
-      next({status: 401, message: "Unauthorized"});
+      res.status(401).send({message:"Unauthorized"});
+      next("Unauthorized, il token non è valido");
     } else {
-      req.username = decodedToken.user;
+      req.userMail = decodedToken.email;
+      console.log("req.userMail: ", req.userMail);
       next();
     }
   });
