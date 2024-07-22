@@ -46,29 +46,12 @@
                 </button>
             </div>
 
-            <div class="GruppoBottoni FontSize">
-                <div
-                    @update="
-                        editor
-                            .chain()
-                            .focus()
-                            .setFontSize(convertToFontSize([fontsizeNumber]))
-                            .run()
-                    "
-                    :class="{
-                        active: editor.isActive('textStyle', {
-                            fontSize: convertToFontSize([fontsizeNumber]),
-                        }),
-                    }"
-                >
-                    <input
-                        type="number"
-                        v-model="fontsizeNumber"
-                        min="8"
-                        max="96"
-                        class="tagButton"
-                    />
-                </div>
+            <div class="GruppoBottoni FontSize" >
+                <v-btn color="#005676" :ripple="false" rounded="lg" >
+                    <v-icon style="color: #f9b63c;" size="x-large" @click="editor.chain().focus().setFontSize(convertToFontSize(--fontsizeNumber)).run()">mdi-minus</v-icon>
+                    <span style="color: #f9b63c;">{{ fontsizeNumber }}</span>
+                    <v-icon style="color: #f9b63c;" size="x-large" @click="editor.chain().focus().setFontSize(convertToFontSize(++fontsizeNumber)).run()">mdi-plus</v-icon>
+                </v-btn>
             </div>
 
             <div class="GruppoBottoni OrganizazioneTesto">
@@ -151,7 +134,7 @@
             </div>
         </section>
         <editor-content :editor="editor" />
-        <div class></div>
+        
     </div>
 </template>
 
@@ -230,6 +213,29 @@ input.tagButton {
     cursor: pointer;
     border-radius: 12px;
 }
+
+input.fontsizeWindow {
+    width: 3rem;
+    background-color: #005676;
+    font-weight: bold;
+    color: #f9b63c;
+    padding: 0.25rem 0.5rem;
+    margin: 0.5rem 0.1rem;
+    text-align: center;
+    font-size: 1.3rem;
+    text-decoration: none;
+}
+.fontsize {
+    background-color: #005676;
+    font-weight: bold;
+    color: #f9b63c;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    margin: -0.5rem -0.7rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 button.tagButton {
     background-color: #005676;
     font-weight: bold;

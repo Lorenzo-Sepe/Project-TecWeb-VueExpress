@@ -22,11 +22,13 @@ export class IdeaController {
 
   static async saveIdea(req, res){
     //save new idea
+    console.log("req.body:", req.userMail);
     return new Promise( (ok,fail)=>{
+      console.log("req.body:", req.userMail);
       Idea.create({
         title: req.body.title, 
         content: req.body.content,
-        userMail: req.body.email
+        userMail: req.userMail
       })
       .then(idea => ok([200 , {message: "Idea saved"}]))
       .catch(e=>{

@@ -11,17 +11,17 @@ export const enforceAuthentication = (excludeRoutes = []) => (req, res, next) =>
   
   const authHeader = req.headers['authorization']
   if(!authHeader){
-    res.status(401).send({message:"Unauthorized"});
-    next("Unauthorized, Il token non è stato fornito");
+    res.status(401).send({message:"Unauthorized, Il token non è stato fornito"});
+
     return;
   }
   AuthController.isTokenValid(authHeader, (err, decodedToken) => {
     if(err){
-      res.status(401).send({message:"Unauthorized"});
-      next("Unauthorized, il token non è valido");
+      res.status(401).send({message:"Unauthorized, il token non è valido"});
+      return
     } else {
       req.userMail = decodedToken.email;
-      console.log("req.userMail: ", req.userMail);
+      
       next();
     }
   });
