@@ -7,9 +7,10 @@ export class IdeaController {
   }
 
   static async getIdeasForCurrentUser(req){
+    console.log("QUI userMail:",req.userMail)
     return Idea.findAll({
       where: {
-        UserMail: req.email
+        userMail: req.userMail
       }
     })
   }
@@ -21,7 +22,7 @@ export class IdeaController {
   }*/
 
   static async saveIdea(req, res){
-    const user = await User.findByPk(req.body.userMail);
+    const user = await User.findByPk(req.userMail);
 
     if(!user){
       res.status(404).json({message: "User not found"});
@@ -31,7 +32,7 @@ export class IdeaController {
     //save new idea
     
     return new Promise( (ok,fail)=>{
-      console.log("req.body:", req.userMail);
+      console.log("User:", user.userMail);
       Idea.create({
         title: req.body.title, 
         content: req.body.content,
@@ -44,8 +45,13 @@ export class IdeaController {
     })
   }
 
+  /**
+   * Funzione di supoorto per riempire il database velocemente
+   * @param {*} req 
+   * @param {*} res 
+   * @returns 
+   */
   static async fillDatabase(req,res){
-
     const user = await User.findByPk(req.body.userMail);
 
     if(!user){
@@ -80,11 +86,10 @@ export class IdeaController {
     return Idea.save();
   }
 
-  static async delete(req){
-    return new Promise( (resolve, reject) => {
-      this.findById(req).then( item => {
-        item.destroy().then( () => {resolve(item)})
-      })
-    })
+  static async delete(ideaId){
+    let idea = await Idea.findByPk(ideaId);
+    return idea.destroy();
   }
+    
 }
+

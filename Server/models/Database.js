@@ -15,11 +15,11 @@ export const {User, Idea} = database.models;
 
 //associations configuration
 User.Ideas = User.hasMany(Idea,{
-  foreignKey: "UserMail",
+  foreignKey: "userMail",
   sourceKey: "userMail"
 });
 Idea.User = Idea.belongsTo(User,{
-  foreignKey: "UserMail",
+  foreignKey: "userMail",
   targetKey: "userMail"
 });
 

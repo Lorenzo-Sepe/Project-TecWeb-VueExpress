@@ -48,10 +48,11 @@ const excludeRoutes = [
   '^/signup'
 ]
 
+
+
 //define routes
 app.use(authenticationRouter);
-//TODO rimuovi commentazione quando il databse è pieno
-//app.use(enforceAuthentication(excludeRoutes));
+app.use(enforceAuthentication(excludeRoutes));
 app.use(ideaRouter);
 
 

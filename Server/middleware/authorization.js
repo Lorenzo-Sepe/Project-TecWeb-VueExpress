@@ -21,22 +21,23 @@ export const enforceAuthentication = (excludeRoutes = []) => (req, res, next) =>
       return
     } else {
       req.userMail = decodedToken.email;
-      
       next();
     }
   });
 }
 
 export async function ensureUsersModifyOnlyOwnIdeas(req, res, next){
-  const user = req.email;
+  const user = req.userMail;
+  console.log("QUI user:", user);
   const ideaId = req.params.id;
+  console.log("ideaId:", ideaId);
   const userHasPermission = await AuthController.canUserModifyIdea(user, ideaId);
   if(userHasPermission){
-    next();
+    console.log("permessi ottenuti")
+    return
   } else {
-    next({
-      status: 403, 
-      message: "Forbidden! You do not have permissions to view or modify this resource"
-    });
+    console.log("permessi non ottenuti")
+    res.status(403).send({message: "Forbidden! You do not have permissions to view or modify this resource"})
+    return
   }
 }

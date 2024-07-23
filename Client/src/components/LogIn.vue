@@ -41,6 +41,7 @@
                         :disabled="!form"
                         :loading="loading"
                         type="submit"
+                        @click="login"
                     >
                         <span class="label">Login</span>
                     </v-btn>
@@ -93,7 +94,6 @@ const credentials = ref({
 let err = ref('');
 
 async function login() {
-    //TODO il routher.push va in conlitto con la route guard e non permette la naviazione
     loading.value = true;
     try {
         const response = await AuthService.login({
@@ -140,7 +140,7 @@ async function register() {
         loading.value = false;
         router.push({path:'/profilo'})
         
-    } catch (error: unknown) {
+    } catch (error: unknown) { console.error(error);
         loading.value = false;
         if(Boolean(error!.response)) {
             error = <AxiosError>error;

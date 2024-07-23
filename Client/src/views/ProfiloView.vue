@@ -3,8 +3,8 @@
         
             <ProfiloInfo class="profilo"/>
             <div class="idee">
-            <IdeePersonali  :ideasArray="ideas" :edit="edit" />
-            <v-pagination  v-model="currentPage" :length="lunghezzaLista"></v-pagination>
+            <IdeePersonali  :ideasArray="sortedIdeas$!" :edit="edit" />
+            <v-pagination  v-model="currentPage" :length="lunghezzaLista$!"></v-pagination>
             </div>
     </div>
 </template>
@@ -12,45 +12,48 @@
 <script setup lang="ts">
 import ProfiloInfo from '../components/ProfiloInfo.vue';
 import IdeePersonali from '../components/IdeaCardComponent.vue';
-import { useUserStore } from '@/stores/userStore';
-import { ref } from 'vue';
+import type {IdeaItem} from '@/services/idea-item.type';
+import { IdeaService } from '@/services/IdeaServices';
+import { onMounted, ref } from 'vue';
+import { catchError, combineLatestWith, map, Observable, of, startWith, Subject, switchMap, tap, withLatestFrom} from 'rxjs';
+import { from,  useObservable } from '@vueuse/rxjs';
+
+const edit=true
+const onMounted$ = new Subject<void>();
 
 const currentPage = ref(1);
 const pageSize = 10;
 
+const ideas$: Observable<Array<IdeaItem>> = onMounted$
+    .pipe(switchMap(() => IdeaService.getIdeasUser()))
+    .pipe(catchError(err => (console.error(err), of([] as IdeaItem[]))));
 
-const userInstance = useUserStore();
-const edit: boolean = true;
-const ideas = [
-    {
-        id: 1,
-        title: 'idea 1',
-        upvotes: 10,
-        downvotes: 2,
-        content: 'This is the content for idea 1.',
-        userMail: userInstance.user.userMail,
-    },
-    {
-        id: 2,
-        title: 'idea 2',
-        upvotes: 7,
-        downvotes: 1,
-        content: 'This is the content for idea 2.',
-        userMail: userInstance.user.userMail,
-    },
-    {
-        id: 3,
-        title: 'idea 3',
-        upvotes: 5,
-        downvotes: 3,
-        content: 'This is the content for idea 3.',
-        userMail: userInstance.user.userMail,
-    },
-];
+onMounted(() => {
+    onMounted$.next();
+});
 
-let arrotondamento = ideas.length + (pageSize - (ideas.length % pageSize));
-let lunghezzaLista = arrotondamento / pageSize;
-lunghezzaLista = Math.floor(lunghezzaLista);
+const sortedIdeas$ = useObservable(
+    ideas$
+    .pipe(combineLatestWith(from(currentPage)
+        .pipe(startWith(1))
+        .pipe(tap(() => console.log('currentPage: %o', currentPage.value)))
+    ))
+    .pipe(map(([ideas, page]) => {
+        console.log('!?', ideas, page);
+        let ris = [];
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        console.log('start: %o, end: %o', start, end);
+        ris = [...ideas].sort((a, b) => b.id - a.id);
+        return ris.slice(start, end);
+    })).pipe(startWith([])));
+
+
+    const lunghezzaLista$ = useObservable(ideas$.pipe(map(ideas => {
+    let arrotondamento = ideas.length + (pageSize - (ideas.length % pageSize));
+    let lunghezzaLista = arrotondamento / pageSize;
+    return Math.floor(lunghezzaLista);
+})).pipe(startWith(0)));
 </script>
 
 <style scoped>

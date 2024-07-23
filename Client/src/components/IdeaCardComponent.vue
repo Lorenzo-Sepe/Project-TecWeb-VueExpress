@@ -9,11 +9,11 @@
                         >
                         <v-card-subtitle class="bg-surface-light">
                             <v-chip class="chip-space" prepend-icon="mdi-account">
-                                {{ idea.userMail }}
+                                {{ idea.UserMail }}
                             </v-chip>
                         </v-card-subtitle>
                         
-                        <v-card-text class="bg-surface-light pt-4">{{ idea.content }}</v-card-text>
+                        <v-card-text class="bg-surface-light pt-4" v-html="idea.content"></v-card-text>
                         <v-card-item class="bg-surface-light pt-4">
                             <v-chip class="chip-space" prepend-icon="mdi-plus-circle">
                                 {{ idea.upvotes }}
@@ -43,17 +43,10 @@
 
 <script setup lang="ts">
 import { useIdeaStore } from '@/stores/ideaStore';
-
+import type { IdeaItem }  from '@/services/idea-item.type';
 
 const props = defineProps<{
-    ideasArray: {
-        id: string | number;
-        title: string;
-        upvotes: number;
-        downvotes: number;
-        content: string;
-        userMail: string;
-    }[];
+    ideasArray: IdeaItem[];
     edit: boolean;
 }>();
 

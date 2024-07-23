@@ -46,6 +46,8 @@ import { IdeaService } from '../services/IdeaServices';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 
+
+const router = useRouter();
 const ideaInstance = useIdeaStore();
 const userInstance = useUserStore();
 
@@ -55,7 +57,6 @@ const newIdea = ref({
     title: ref(ideaInstance.idea.title),
     content: ref(ideaInstance.idea.content),
     userMail: userInstance.user.userMail,
-
 });
 
 onUnmounted(() => {
@@ -82,6 +83,7 @@ const createPost = () => {
     validate();
     try {
         IdeaService.createIdea(newIdea.value);
+        router.push({path:'/profilo'})
     } catch (error) {
         console.error(error);
     }
