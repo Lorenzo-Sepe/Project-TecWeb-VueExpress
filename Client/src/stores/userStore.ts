@@ -9,14 +9,14 @@ export const useUserStore = defineStore(
             userMail: '',
             password: '',
             token: '',
-            votedOn: [] as number[],
+            votedOn: [] as string[],
         });
         function updateUser(newData: {
             userName?: string;
             userMail?: string;
             password?: string;
             token?: string;
-            votedOn?: number[];
+            votedOn?: string[];
         }) {
             user.value = { ...user.value, ...newData };
         }
@@ -26,7 +26,7 @@ export const useUserStore = defineStore(
             userMail?: string;
             password?: string;
             token?: string;
-            votedOn?: number[];
+            votedOn?: string[];
         }) {
             user.value = {
                 userName: newData.userName ?? '',

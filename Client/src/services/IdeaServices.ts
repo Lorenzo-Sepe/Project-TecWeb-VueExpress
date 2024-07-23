@@ -7,6 +7,10 @@ export class IdeaService {
         return APIv1().post('idea', idea);
     }
 
+    static getIdea(id: string) {
+        return APIv1().get<IdeaItem>(`idea/${id}`);
+    }
+
     static getIdeas() {
         return Api().get<IdeaItem[]>('idea/all')
             .pipe(map(r => r.data));
@@ -22,6 +26,6 @@ export class IdeaService {
     }
 
     static updateIdea(idea: IdeaItem) {
-        return APIv1().put('idea', idea);
+        return APIv1().put(`idea/${idea.id}`, idea);
     }
 }

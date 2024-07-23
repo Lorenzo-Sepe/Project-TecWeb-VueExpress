@@ -34,7 +34,7 @@ export async function ensureUsersModifyOnlyOwnIdeas(req, res, next){
   const userHasPermission = await AuthController.canUserModifyIdea(user, ideaId);
   if(userHasPermission){
     console.log("permessi ottenuti")
-    return
+    next();
   } else {
     console.log("permessi non ottenuti")
     res.status(403).send({message: "Forbidden! You do not have permissions to view or modify this resource"})

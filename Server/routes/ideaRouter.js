@@ -51,7 +51,7 @@ ideaRouter.post("/fillDatabase",(req,res)=>{
   }
 )
 
-ideaRouter.get("/idea/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
+ideaRouter.get("/idea/:id", (req, res, next) => {
   IdeaController.findById(req).then( (item) => {
     if(item)
       res.json(item);
@@ -62,7 +62,8 @@ ideaRouter.get("/idea/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   })
 });
 
-ideaRouter.delete("/ideas/:id",  ensureUsersModifyOnlyOwnIdeas,async (req, res, next) => {
+
+ideaRouter.delete("/idea/:id",  ensureUsersModifyOnlyOwnIdeas,async (req, res, next) => {
   try {
     const idea = await IdeaController.delete(req.params.id);
     res.json({ message: "Idea deleted" });
@@ -72,7 +73,7 @@ ideaRouter.delete("/ideas/:id",  ensureUsersModifyOnlyOwnIdeas,async (req, res, 
   }
 });
 
-ideaRouter.put("/ideas/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
+ideaRouter.put("/idea/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   IdeaController.update(req.params.id, req.body).then( (item) => {
     if(item)
       res.json(item);
@@ -81,6 +82,4 @@ ideaRouter.put("/ideas/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => 
   }).catch( err => {
     next(err);
   })
-
- 
 });

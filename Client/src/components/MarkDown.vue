@@ -141,6 +141,8 @@
 <script setup lang="ts">
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import { ref } from 'vue';
+
+//estensioni tiptap
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
@@ -148,6 +150,9 @@ import ImageRule from '@tiptap/extension-image';
 import FontSize from 'tiptap-extension-font-size';
 import TextStyle from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
+import Highlight from '@tiptap/extension-highlight';
+
+//icone
 import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
 import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
 import StrikeIcon from 'vue-material-design-icons/FormatStrikethroughVariant.vue';
@@ -180,7 +185,7 @@ const editor = useEditor({
         },
     },
     content: props.modelValue,
-    extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily],
+    extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily,Highlight],
     onUpdate: ({ editor }) => {
         console.log(editor.getHTML());
         emit('update:modelValue', editor.getHTML());

@@ -34,24 +34,7 @@ const pageSize = 10;
 const ideas$: Observable<Array<IdeaItem>> = onMounted$
     .pipe(switchMap(() => IdeaService.getIdeas()))
     .pipe(catchError(err => (console.error(err), of([] as IdeaItem[]))))
-    .pipe(map(ideas => {
-        switch(props.ordinamento) {
-        case 'popolari':
-            ideas.sort((a, b) => b.upvotes - a.upvotes);
-            break;
-        case 'sfavorite':
-            ideas.sort((a, b) => b.downvotes - a.downvotes);
-            break;
-        case 'controverse':
-            ideas.sort((a, b) => b.upvotes - b.downvotes - (a.upvotes - a.downvotes));
-            break;
-        default:
-            ideas.sort((a, b) => b.id - a.id);
-            break;
-        }
-
-        return ideas;
-    }));
+    .pipe(tap(() => loading.value = false));
 
 onMounted(() => {
     onMounted$.next();
@@ -89,7 +72,7 @@ const sortedIdeas$ = useObservable(
                 return ris.slice(start, end);
             
             default:
-                ris = [...ideas].sort((a, b) => b.id - a.id);
+                ris = [...ideas].sort((a: IdeaItem, b: IdeaItem) => (b.id as unknown as number) - (a.id as unknown as number));
                 return ris.slice(start, end);
                 
         }

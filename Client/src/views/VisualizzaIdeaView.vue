@@ -9,15 +9,15 @@
                 <div class="vote-actions">
                     <v-btn
                         variant="outlined"
-                        size="x-large"
+                        size="large"
                         prepend-icon="mdi-arrow-up-bold-hexagon-outline"
                         @click="upvote"
                         :disabled="voted"
                         color="success"
                     >
                         Upvote
-                        <v-chip density="confortable" size="x-large" class="vote-count">
-                            {{ upvotes }}
+                        <v-chip density="comfortable" size="large" class="vote-count">
+                            {{ idea.upvotes }}
                         </v-chip>
                     </v-btn>
 
@@ -25,16 +25,19 @@
                         :disabled="voted"
                         variant="outlined"
                         outline
-                        size="x-large"
+                        size="large"
                         prepend-icon="mdi-arrow-down-bold-hexagon-outline"
                         @click="downvote"
                         color="error"
                     >
                         Downvote
-                        <v-chip density="confortable" size="x-large" class="vote-count">
-                            {{ downvotes }}
+                        <v-chip density="comfortable" size="large" class="vote-count">
+                            {{ idea.downvotes }}
                         </v-chip>
                     </v-btn>
+                </div>
+                <div class="escape" style="padding-top: 2rem;">
+                    <v-btn @click="router.push('/')" color="#005676" size="x-large"><span style="color: #f9b63c;">Torna alla Home</span></v-btn>
                 </div>
             </div>
         </v-container>
@@ -43,52 +46,56 @@
 
 <script setup lang="ts">
 import { ref, onUpdated } from 'vue';
-import { IdeaService } from '../services/IdeaServices.ts';
-import { useUserStore } from '../stores/userStore.ts';
+import { IdeaService } from '../services/IdeaServices';
+import { useUserStore } from '../stores/userStore';
+import { useIdeaStore } from '@/stores/ideaStore';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const userStore = useUserStore();
+const idea = useIdeaStore().idea;
 let voted = ref(false);
 
-const idea = {
-    id: 1,
-    title: 'Sample idea',
-    content: '<h1>Lorem</h1> ipsum dolor sit amet, consectetur adipiscing elit.',
-    upvotes: 0,
-    downvotes: 0,
-};
 
-const upvotes = ref(0);
-const downvotes = ref(0);
+//TODO importa idea da store
 
 const userVoted = () => {
     voted.value = true;
+    let newArray:string[] = userStore.user.votedOn;
+    newArray.push(idea.id);
     userStore.updateUser({
-        votedOn: user.votedOn.push(idea.id),
+        votedOn: newArray,
     });
 };
 
 const upvote = () => {
     userVoted();
     voted.value = true;
-    upvotes.value++;
+    idea.upvotes++;
 };
 
 const downvote = () => {
     userVoted();
     voted.value = true;
-    downvotes.value++;
+    idea.downvotes++;
 };
 
 async function updateIdea() {
     await IdeaService.updateIdea({
-        upvotes: upvotes.value,
-        downvotes: downvotes.value,
+        id: idea.id,
+        title: idea.title,
+        content: idea.content,
+        upvotes: idea.upvotes,
+        downvotes: idea.downvotes,
+        userMail: idea.userMail,
     });
 }
 
 onUpdated(() => {
     updateIdea();
 });
+
+
 </script>
 
 <style scoped>

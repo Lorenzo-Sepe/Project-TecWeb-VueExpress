@@ -5,6 +5,7 @@ export const useIdeaStore = defineStore(
     'idea',
     () => {
         const idea = ref({
+            id: '',
             title: '',
             content: '',
             upvotes: 0,
@@ -14,6 +15,7 @@ export const useIdeaStore = defineStore(
 
         function setIdea(   
             newIdea:{
+                id: string,
                 title: string,
                 content: string,
                 upvotes: number,

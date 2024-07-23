@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <template>
     <div class="cardSizing">
         <v-container>
@@ -9,7 +10,7 @@
                         >
                         <v-card-subtitle class="bg-surface-light">
                             <v-chip class="chip-space" prepend-icon="mdi-account">
-                                {{ idea.UserMail }}
+                                {{ idea.userMail }}
                             </v-chip>
                         </v-card-subtitle>
                         
@@ -23,15 +24,13 @@
                             </v-chip>
                         </v-card-item>
                         <v-card-actions class="bg-surface-light pt-4 ">
-                            <router-link :to="{ name: 'VisualizzaIdea', params: { id: idea.id } }">
-                                <v-btn color="#005676">Leggi di più</v-btn>
-                            </router-link>
+                            
+                                <v-btn @click="caricaIdeaVisualizza(idea)" color="#005676">Leggi di più</v-btn>
+                            
                             <p v-if="edit" class="tw-block">
-                                <router-link
-                                    :to="{ name: 'ModificaIdea', params: { id: idea.id } }"
-                                >
-                                    <v-btn @click="caricaIdea(idea.id)" color="#005676">Modifica Idea</v-btn>
-                                </router-link>
+                                
+                                    <v-btn @click="caricaIdeaModifica(idea)" color="#005676">Modifica Idea</v-btn>
+                                
                             </p>
                         </v-card-actions>
                     </v-card>
@@ -39,27 +38,57 @@
             </v-row>
         </v-container>
     </div>
+    //{{ ideasArray[0] }}
 </template>
 
 <script setup lang="ts">
 import { useIdeaStore } from '@/stores/ideaStore';
-import type { IdeaItem }  from '@/services/idea-item.type';
+import { defineProps } from 'vue';
+import {useRouter} from 'vue-router';
 
+const router = useRouter();
 const props = defineProps<{
-    ideasArray: IdeaItem[];
+    ideasArray: Array<{
+        id: string | number;
+        title: string;
+        content: string;
+        upvotes: number;
+        downvotes: number;
+        userMail: string;
+    }>;
     edit: boolean;
 }>();
 
-
-function getIdeaById(id: string | number) {
-    return props.ideasArray.find((idea) => idea.id === id);
-}
-
-function caricaIdea(id: string | number) {
+async function caricaIdeaVisualizza(selectedIdea: any) {
     const ideaInstance = useIdeaStore();
-    let ideaSelected = getIdeaById(id) as { title: string; content: string; upvotes: number; downvotes: number; userMail: string; };
-    ideaInstance.setIdea(ideaSelected);
+    ideaInstance.setIdea(
+      {
+        id: selectedIdea.id,
+        title: selectedIdea.title,
+        content: selectedIdea.content,
+        upvotes: selectedIdea.upvotes,
+        downvotes: selectedIdea.downvotes,
+        userMail: selectedIdea.userMail,
+      }
+    );
+    router.push({ name: 'VisualizzaIdea', params: { id: selectedIdea.id } });
 }
+
+async function caricaIdeaModifica(selectedIdea: any) {
+    const ideaInstance = useIdeaStore();
+    ideaInstance.setIdea(
+      {
+        id: selectedIdea.id,
+        title: selectedIdea.title,
+        content: selectedIdea.content,
+        upvotes: selectedIdea.upvotes,
+        downvotes: selectedIdea.downvotes,
+        userMail: selectedIdea.userMail,
+      }
+    );
+    router.push({ name: 'ModificaIdea', params: { id: selectedIdea.id } });
+}
+
 </script>
 
 <style scoped>

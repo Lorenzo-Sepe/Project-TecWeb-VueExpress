@@ -104,11 +104,9 @@ export class AuthController {
    * @returns 
    */
   static async canUserModifyIdea(user, ideaId){
-    console.log("ID idea id:", ideaId);
+    console.log("user:", user);
     const idea = await Idea.findByPk(ideaId);
-    //idea must exist and be associated with user
     console.log("idea:", idea);
-    console.log("idea.userMail:", idea.userMail);
     return idea && idea.userMail === user;
   }
 

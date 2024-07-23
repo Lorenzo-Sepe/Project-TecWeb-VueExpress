@@ -50,28 +50,6 @@ const router = createRouter({
             path: '/modificaIdea/:id',
             name: 'ModificaIdea',
             component: () => import('../views/ModificaIdeaView.vue'),
-            /* beforeEnter: (to, from, next) => {
-                //TODO aggiungere controllo modifca propria idea
-                const userStore = useUserStore();
-                AuthService.canUserModifyIdea(
-                    userStore.user.userMail,
-                    userStore.user.token,
-                ).then((response) => {
-                    console.log(response);
-                    const res = JSON.parse(response);
-                });
-            } */
-           //verificare
-           beforeEnter: (to, from, next) => {
-                const userStore = useUserStore();
-                const ideaStore = useIdeaStore();
-                if (userStore.user.userMail === ideaStore.idea.userMail) {
-                    next();
-                }else{
-                    alert('Non puoi modificare un idea che non ti appartiene');
-                    next({ name: 'profile' });
-                };
-            }
         },
 
         {

@@ -1,7 +1,7 @@
 <template>
     <v-form v-model="valid" @submit.prevent>
         <v-container fill-height>
-            <h1 class="intestazione">Condividi la tua idea</h1>
+            <h1 class="intestazione">Modifica la tua idea</h1>
             <v-row no-gutters>
                 <v-col cols="12">
                     <v-text-field
@@ -28,7 +28,7 @@
                         rounded
                         class="mt-4"
                     >
-                        <span class="bottonetesto">Crea Idea</span>
+                        <span class="bottonetesto">Modifica Idea</span>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -76,7 +76,21 @@ const modificaPost = () => {
     // Logic to create the post
     // You can use the post.value.title and post.value.content values to send the data to the server
     try {
-        //IdeaService.createIdea(newIdea.value);
+        IdeaService.updateIdea({
+            id: storeInstance.idea.id,
+            title: newIdea.value.title,
+            content: newIdea.value.content,
+            upvotes: storeInstance.idea.upvotes,
+            downvotes: storeInstance.idea.downvotes,
+            userMail: storeInstance.idea.userMail,
+        }).then(() => {
+            storeInstance.updateIdea({
+                title: newIdea.value.title,
+                content: newIdea.value.content,
+            });
+            alert('Idea modificata con successo');
+        })
+        
     } catch (error) {
         console.error(error);
     }

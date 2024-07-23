@@ -10,6 +10,7 @@ export const APIv1 = () => {
     });
 };
 
+//axios observable api
 export default () => {
     const userInstance = useUserStore();
     A.defaults.headers.common['Authorization'] = `${userInstance.user.token}`;

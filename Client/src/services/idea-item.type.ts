@@ -1,10 +1,10 @@
 export interface IdeaItem {
-    id: number;
+    id: string;
     title: string;
     content: string;
     upvotes: number;
     downvotes: number;
-    UserMail: string;
-    createdAt: Date;
-    updatedAt: Date;
+    userMail: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
