@@ -50,7 +50,8 @@ const excludeRoutes = [
 
 //define routes
 app.use(authenticationRouter);
-app.use(enforceAuthentication(excludeRoutes));
+//TODO rimuovi commentazione quando il databse è pieno
+//app.use(enforceAuthentication(excludeRoutes));
 app.use(ideaRouter);
 
 

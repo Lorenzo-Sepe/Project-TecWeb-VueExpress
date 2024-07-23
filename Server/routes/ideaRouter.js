@@ -18,6 +18,16 @@ ideaRouter.post("/idea", (req, res) => {
   .catch(e => console.error(e));  
 });
 
+/**
+ * Funzione di test per riempiree rapidamente il  database
+ */
+ideaRouter.post("/fillDatabase",
+  (req,res)=>{
+    IdeaController.fillDatabase(req,res)
+    .then(({status,message}) => res.status(status).json(message))
+    .catch(e => console.error(e));
+  }
+)
 
 ideaRouter.get("/idea/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => {
   IdeaController.findById(req).then( (item) => {
@@ -51,4 +61,6 @@ ideaRouter.put("/ideas/:id", ensureUsersModifyOnlyOwnIdeas, (req, res, next) => 
   }).catch( err => {
     next(err);
   })
+
+ 
 });

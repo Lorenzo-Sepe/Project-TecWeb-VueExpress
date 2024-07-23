@@ -42,7 +42,7 @@ export class AuthController {
       })
       .then(user => ok([ 200,  { token: AuthController.issueToken(user.userMail) } ]))
       .catch(e => {
-        if(Boolean( e.errors)) {
+        if(e.errors) {
           const foundUniqueViolation = e.errors.find(e => e.type === 'unique violation');
   
           if(foundUniqueViolation) {
@@ -108,4 +108,6 @@ export class AuthController {
     //idea must exist and be associated with user
     return idea && idea.userMail === user;
   }
+
+
 }

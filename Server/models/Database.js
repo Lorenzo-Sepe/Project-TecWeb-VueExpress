@@ -14,8 +14,14 @@ createIdeaModel(database);
 export const {User, Idea} = database.models;
 
 //associations configuration
-User.Ideas = User.hasMany(Idea);
-Idea.User = Idea.belongsTo(User);
+User.Ideas = User.hasMany(Idea,{
+  foreignKey: "UserMail",
+  sourceKey: "userMail"
+});
+Idea.User = Idea.belongsTo(User,{
+  foreignKey: "UserMail",
+  targetKey: "userMail"
+});
 
 //synchronize schema (creates missing tables)
 database.sync().then( () => {

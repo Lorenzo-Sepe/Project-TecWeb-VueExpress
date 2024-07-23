@@ -24,11 +24,7 @@ export function createModel(database){
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    userMail: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    //by default, Sequelize adds the createdAt and updatedAt fields to all models
+    //by default, Sequelize adds the createdAt and updatedAt fields to all models and the external keys defined in the database.js file
   }, {
 
   })

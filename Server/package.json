@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "npx eslint **/*.js",
-    "lint-fix": "npx eslint **/*.js --fix",
-    "start": "node ."
+    "lint": "bunx eslint **/*.js",
+    "lint-fix": "bunx eslint **/*.js --fix",
+    "start": "bun --watch ."
   },
   "author": "Lorenzo Sepe",
   "license": "MIT",
