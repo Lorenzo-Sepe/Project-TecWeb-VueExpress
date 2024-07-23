@@ -3,7 +3,7 @@
 ## Organizazione Progetto 
 
 La web app è separata in due cartelle, distinguendo Backend e Frontend.
-L'app può essere eseguita a partire dalle cartelle in maniera indipendente o dalla dalla cartella Client.
+L'app deve essere avviata a partire da le due cartelle usando gli script definiti dai file package.json.
 
 ## Dipendenze
 
@@ -14,7 +14,6 @@ npm install -g bun
 ```
 
 La sistassi dei comandi bun è compatibile sia con npm e yarn, rendedo la migrazione estremamente semplice.
-
 
 ### Da cartelle separate
 
@@ -40,4 +39,10 @@ bun start
 bun install
 ```
 
-7. Eseguire il comando
+7. Eseguire il comando 
+
+``` 
+bun run dev
+```
+
+8. Il client è in esecuzione su http://localhost:5173

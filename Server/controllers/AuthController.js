@@ -104,10 +104,10 @@ export class AuthController {
    * @returns 
    */
   static async canUserModifyIdea(user, ideaId){
-    console.log("user:", user);
-    const idea = await Idea.findByPk(ideaId);
-    console.log("idea:", idea);
-    return idea && idea.userMail === user;
+    //console.log("user AAA:", user);
+    const idea = await Idea.findByPk(ideaId, { include: [ User ] });
+    //console.log("idea AAA: %o", idea.User.userMail);
+    return idea && idea.User.userMail === user;
   }
 
 

@@ -82,7 +82,6 @@ const modificaPost = () => {
             content: newIdea.value.content,
             upvotes: storeInstance.idea.upvotes,
             downvotes: storeInstance.idea.downvotes,
-            userMail: storeInstance.idea.userMail,
         }).then(() => {
             storeInstance.updateIdea({
                 title: newIdea.value.title,

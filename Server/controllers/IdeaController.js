@@ -81,9 +81,9 @@ export class IdeaController {
   }
 
   static async update(id, updated){
-    let Idea = await Idea.findByPk(id);
-    Idea.set(updated); //update using fields which were passed in request
-    return Idea.save();
+    let ideaUpdated = await Idea.findByPk(id);
+    ideaUpdated.set(updated); //update using fields which were passed in request
+    return ideaUpdated.save();
   }
 
   static async delete(ideaId){
