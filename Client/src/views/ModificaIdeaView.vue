@@ -73,8 +73,6 @@ const validate = () => {
 };
 const modificaPost = () => {
     validate();
-    // Logic to create the post
-    // You can use the post.value.title and post.value.content values to send the data to the server
     try {
         IdeaService.updateIdea({
             id: storeInstance.idea.id,

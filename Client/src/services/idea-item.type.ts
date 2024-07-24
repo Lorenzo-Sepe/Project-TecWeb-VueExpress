@@ -4,7 +4,7 @@ export interface IdeaItem {
     content: string;
     upvotes: number;
     downvotes: number;
-    userMail: string;
+    userMail?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

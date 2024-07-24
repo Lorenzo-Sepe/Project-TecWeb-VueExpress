@@ -36,7 +36,8 @@ export const authenticationRouter = express.Router();
 authenticationRouter.post("/auth", async (req, res) => {
   let isAuthenticated = await AuthController.checkCredentials(req, res);
   if(isAuthenticated){
-    res.json({token: AuthController.issueToken(req.body.usr)});
+    console.log("User authenticated: ", req.body);
+    res.json({token: AuthController.issueToken(req.body.email)});
   } else {
     res.status(401);
     res.json( {error: "Invalid credentials. Try again."});
@@ -52,13 +53,10 @@ authenticationRouter.post("/signup", saveUser,  (req, res, next) => {
 });
 
 authenticationRouter.put("/editUser", (req, res, next) => {
+  console.log("User updated: ", req.body);
   AuthController.updateUser(req).catch((err) => {
     next({status: 500, message: "Could not update user",error:err});
   })
 });
 
-authenticationRouter.post("/editIdea", (req, res, next) => {
-  AuthController.canUserModifyIdea(req).catch((err) => {
-    next({status: 500, message: "Could not update idea",error:err});
-  })
-});    
+   

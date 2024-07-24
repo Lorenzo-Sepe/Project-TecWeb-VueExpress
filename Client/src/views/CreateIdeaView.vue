@@ -39,31 +39,23 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import Markdown from '../components/MarkDown.vue';
 import { useIdeaStore } from '../stores/ideaStore';
 import { IdeaService } from '../services/IdeaServices';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
-
+import type { IdeaItem } from '@/services/idea-item.type';
 
 const router = useRouter();
-const ideaInstance = useIdeaStore();
 const userInstance = useUserStore();
 
 const valid = ref(true);
 const hasError = ref(false);
 const newIdea = ref({
-    title: ref(ideaInstance.idea.title),
-    content: ref(ideaInstance.idea.content),
+    title: '',
+    content: '',
     userMail: userInstance.user.userMail,
-});
-
-onUnmounted(() => {
-    ideaInstance.updateIdea({
-        title: newIdea.value.title,
-        content: newIdea.value.content,
-    });
 });
 
 const validate = () => {
@@ -82,7 +74,11 @@ const validate = () => {
 const createPost = () => {
     validate();
     try {
-        IdeaService.createIdea(newIdea.value);
+        IdeaService.createIdea({
+            title: newIdea.value.title,
+            content: newIdea.value.content,
+            userMail: newIdea.value.userMail,
+        } as IdeaItem);
         router.push({path:'/profilo'})
     } catch (error) {
         console.error(error);

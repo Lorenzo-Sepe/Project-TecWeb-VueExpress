@@ -34,6 +34,7 @@ const pageSize = 10;
 const ideas$: Observable<Array<IdeaItem>> = onMounted$
     .pipe(switchMap(() => IdeaService.getIdeas()))
     .pipe(catchError(err => (console.error(err), of([] as IdeaItem[]))))
+    .pipe(tap(ideas => console.log('ideas: %o', ideas)))
     .pipe(tap(() => loading.value = false));
 
 onMounted(() => {

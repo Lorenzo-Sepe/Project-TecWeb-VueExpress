@@ -114,7 +114,7 @@ async function login() {
         router.push({path:'/profilo'})
     } catch (error: unknown) {
         loading.value = false;
-        if(Boolean(error!.response)) {
+        if(error!.response) {
             error = <AxiosError>error;
             err.value = error.response.data.message;
         }

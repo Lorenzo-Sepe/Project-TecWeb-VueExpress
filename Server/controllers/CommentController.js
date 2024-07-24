@@ -1,27 +1,29 @@
 import { json } from "sequelize";
-import {Idea} from "../models/Database.js";
+import {Comment} from "../models/Database.js";
 import {User} from "../models/Database.js";
-export class IdeaController {
-  
-  static async getIdeasAll(){
-    return Idea.findAll()
+
+export class CommentController {
+    
+    static async getCommentsForCurrentIdea(req){
+    return Comment.findAll({
+      where: {
+        ideaId: req.params.id
+      }
+    })
   }
 
-  static async getIdeasForCurrentUser(req){
+  /**
+   *  static async getIdeasForCurrentUser(req){
     return Idea.findAll({
       where: {
         userMail: req.userMail
       }
     })
   }
+   */
   
-  /*static async saveIdea(req){
-    let Idea = Idea.build(req.body);
-    Idea.UserMail = req.email;
-    return Idea.save();
-  }*/
-
-  static async saveIdea(req, res){
+  static async saveComment(req, res){
+    console.log("CommentRouter: ", req.userMail);
     const user = await User.findByPk(req.userMail);
 
     if(!user){
@@ -30,15 +32,15 @@ export class IdeaController {
     }
 
     //save new idea
-    
     return new Promise( (ok,fail)=>{
-      console.log("User:", user.userMail);
-      Idea.create({
-        title: req.body.title, 
+        //console.log("Utente:", req.body);
+      //console.log("Utente:", user.userMail);
+      Comment.create({
         content: req.body.content,
-        userMail: user.userMail
+        userMail: user.userMail,
+        ideaId: req.body.ideaId
       })
-      .then(idea => ok([200 , {message: "Idea saved"}]))
+      .then(comment => ok([200 , {message: "Comment saved"}]))
       .catch(e=>{
         fail(e);
       })
@@ -52,7 +54,6 @@ export class IdeaController {
    * @returns 
    */
   static async fillDatabase(req,res){
-    console.log("req.body:", req.body);
     const user = await User.findByPk(req.body.userMail);
 
     if(!user){
@@ -62,35 +63,33 @@ export class IdeaController {
 
     return new Promise( (ok,fail)=>{
       console.log("req.body.userMail:", req.body.userMail,);
-      Idea.create({
-        title: req.body.title, 
+      Comment.create({
+        ideaId: req.body.ideaId,
         content: req.body.content,
-        upvotes: req.body.upvotes,
-        downvotes: req.body.downvotes,
-        userMail: req.body.userMail
+        UserMail: req.body.userMai
       })
-      .then(idea => ok([200 , {message: "Idea saved: " , idea}]))
+      .then(comment => ok([200 , {message: "Comment saved: " , comment}]))
       .catch(e=>{
-        console.log("Errore nel creazione idee:", e);
+        console.log("Errore nel creazione commento:", e);
         fail(e);
       })
     })
   }
 
   static async findById(req){
-    return Idea.findByPk(req.params.id);
+    return Comment.findByPk(req.params.id);
   }
 
   static async update(id, updated){
-    let ideaUpdated = await Idea.findByPk(id);
+    let commentUpdated = await Comment.findByPk(id);
     console.log("info Updated:", updated);
-    ideaUpdated.set(updated); //update using fields which were passed in request
-    return ideaUpdated.save();
+    commentUpdated.set(updated); //update using fields which were passed in request
+    return commentUpdated.save();
   }
 
   static async delete(ideaId){
-    let idea = await Idea.findByPk(ideaId);
-    return idea.destroy();
+    let comment = await Comment.findByPk(ideaId);
+    return comment.destroy();
   }
     
 }

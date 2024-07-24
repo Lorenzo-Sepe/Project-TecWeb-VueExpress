@@ -40,11 +40,21 @@ export const useUserStore = defineStore(
         function getUser() {
             return user.value;
         }
+        function clearUser() {
+            user.value = {
+                userName: '',
+                userMail: '',
+                password: '',
+                token: '',
+                votedOn: [],
+            };
+        }
         return {
             user,
             updateUser,
             setUser,
             getUser,
+            clearUser,
         };
     },
     { persist: true }

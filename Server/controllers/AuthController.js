@@ -1,6 +1,5 @@
-import { User,Idea } from "../models/Database.js";
+import { User,Idea,Comment } from "../models/Database.js";
 import Jwt from "jsonwebtoken";
-
 
 export class AuthController {
   /**
@@ -66,13 +65,14 @@ export class AuthController {
   }
 
   static updateUser(req, res){
+    console.log("req.body: %o", req.body);
     User.update({
       userName: req.body.userName,
       password: req.body.password,
       votedOn: req.body.votedOn
     },{
       where: {
-        userMail: req.body.userMail
+        userMail: req.userMail
       }
     }).then((user) => {
       res.status(200).send({
@@ -104,11 +104,12 @@ export class AuthController {
    * @returns 
    */
   static async canUserModifyIdea(user, ideaId){
-    //console.log("user AAA:", user);
     const idea = await Idea.findByPk(ideaId, { include: [ User ] });
-    //console.log("idea AAA: %o", idea.User.userMail);
     return idea && idea.User.userMail === user;
   }
 
-
+  static async canUserModifyComment(user, commentId){
+    const comment = await Comment.findByPk(commentId, { include: [ Idea ] });
+    return comment && comment.userMail === user;
+  }
 }

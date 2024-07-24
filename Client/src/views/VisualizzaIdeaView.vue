@@ -36,28 +36,55 @@
                         </v-chip>
                     </v-btn>
                 </div>
+
+                <div class="comment area">
+                    <CommentComponent/>
+                </div>
+
+                <div class="editorArea" >
+                    <Editor v-model="comment"/>
+                    <v-btn style="margin-top: 1rem;" @click="creaComment" color="#005676" size="large"><span style="color: #f9b63c;">Crea Commento</span></v-btn>
+                </div>
+
                 <div class="escape" style="padding-top: 2rem;">
                     <v-btn @click="router.push('/')" color="#005676" size="x-large"><span style="color: #f9b63c;">Torna alla Home</span></v-btn>
                 </div>
             </div>
+            
         </v-container>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onUpdated } from 'vue';
+import { onMounted, ref } from 'vue';
 import { IdeaService } from '../services/IdeaServices';
 import { useUserStore } from '../stores/userStore';
 import { useIdeaStore } from '@/stores/ideaStore';
 import { useRouter } from 'vue-router';
+import Editor from '../components/MarkDown.vue'
+import CommentComponent from '../components/CommentComponent.vue'
+import { CommentService } from '../services/CommentService';
 
 const router = useRouter();
 const userStore = useUserStore();
+const ideaStore = useIdeaStore();
 const idea = useIdeaStore().idea;
 let voted = ref(false);
+const comment = ref('');
 
-
-//TODO importa idea da store
+const creaComment = async () => {
+    console.log('Comment: ',comment.value);
+    await CommentService.createComment({
+        content: comment.value,
+        ideaId: idea.id,
+        userMail: userStore.user.userMail,
+    }).then(() => {
+        //router.go(0);
+        alert('Commento creato con successo!');
+    }).catch((error) => {
+        console.error(error);
+    });
+};
 
 const userVoted = () => {
     voted.value = true;
@@ -70,35 +97,41 @@ const userVoted = () => {
 
 const upvote = () => {
     userVoted();
-    voted.value = true;
     idea.upvotes++;
+    updateIdea();
 };
 
 const downvote = () => {
     userVoted();
-    voted.value = true;
     idea.downvotes++;
+    updateIdea();
 };
 
+onMounted(() => {
+    if (userStore.user.votedOn.includes(idea.id)) {
+        voted.value = true;
+    }
+});
+
 async function updateIdea() {
-    await IdeaService.updateIdea({
+    await IdeaService.voteIdea({
         id: idea.id,
         title: idea.title,
         content: idea.content,
         upvotes: idea.upvotes,
         downvotes: idea.downvotes,
-        userMail: idea.userMail,
     });
-}
 
-onUpdated(() => {
-    updateIdea();
-});
+    ideaStore.updateIdea(idea);
+}
 
 
 </script>
 
 <style scoped>
+.editorArea {
+    margin-top: 16px;
+}
 .idea-view {
     display: flex;
 

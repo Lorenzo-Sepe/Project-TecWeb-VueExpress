@@ -1,5 +1,6 @@
 import Api,{APIv1} from './api';
 import type { CredentialsItem } from './credential-item.type';
+import type { UserItem } from './user-item.type';
 
 export default {
     register(credentials: CredentialsItem) {
@@ -12,9 +13,15 @@ export default {
             .post('auth', credentials)
             .then((response) => response.data);
     },
-    canUserModifyIdea(userMail: string, token: string) {
+    logout(){
         return APIv1()
-            .post('auth', { userMail, token })
-            .then((response) => response.data);
+        .post('reset')
+        .then((response) => response.data);
     },
+    updateUser(newCredentials: UserItem){
+        console.log('New Credentials: ',newCredentials);
+        return APIv1()
+        .put('/editUser')
+        .then((response) => response.data);
+    }
 };

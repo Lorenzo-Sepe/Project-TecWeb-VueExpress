@@ -25,11 +25,11 @@
                         </v-card-item>
                         <v-card-actions class="bg-surface-light pt-4 ">
                             
-                                <v-btn @click="caricaIdeaVisualizza(idea)" color="#005676">Leggi di più</v-btn>
+                                <v-btn @click="caricaIdeaVisualizza(idea)" color="#005676" icon="mdi-fullscreen"></v-btn>
                             
                             <p v-if="edit" class="tw-block">
-                                
-                                    <v-btn @click="caricaIdeaModifica(idea)" color="#005676">Modifica Idea</v-btn>
+                                    <v-btn @click="deleteIdea(idea.id)" color="#005676" icon="mdi-delete"></v-btn>
+                                    <v-btn @click="caricaIdeaModifica(idea)" color="#005676" icon="mdi-pencil"></v-btn>
                                 
                             </p>
                         </v-card-actions>
@@ -38,10 +38,10 @@
             </v-row>
         </v-container>
     </div>
-    //{{ ideasArray[0] }}
 </template>
 
 <script setup lang="ts">
+import { IdeaService } from '@/services/IdeaServices';
 import { useIdeaStore } from '@/stores/ideaStore';
 import { defineProps } from 'vue';
 import {useRouter} from 'vue-router';
@@ -72,6 +72,18 @@ async function caricaIdeaVisualizza(selectedIdea: any) {
       }
     );
     router.push({ name: 'VisualizzaIdea', params: { id: selectedIdea.id } });
+}
+
+async function deleteIdea(idCancel: any) {
+        await IdeaService.deleteIdea(idCancel)
+        .then(()=>{
+            alert("Idea eliminata con successo")
+        })
+        .catch((err)=>{
+            alert("Errore nell'eliminazione dell'idea")
+            console.error(err)
+        })
+        router.go(0);
 }
 
 async function caricaIdeaModifica(selectedIdea: any) {

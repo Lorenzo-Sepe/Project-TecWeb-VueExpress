@@ -3,8 +3,12 @@
         
             <ProfiloInfo class="profilo"/>
             <div class="idee">
-            <IdeePersonali  :ideasArray="sortedIdeas$!" :edit="edit" />
+            <IdeePersonali  :ideasArray="sortedIdeas$" :edit="edit" />
             <v-pagination  v-model="currentPage" :length="lunghezzaLista$!"></v-pagination>
+            </div>
+            <div classe="commenti">
+            <CommentComponent :canc="canc" />
+            <v-pagination  v-model="currentPage2" :length="lunghezzaLista$!"></v-pagination>
             </div>
     </div>
 </template>
@@ -17,11 +21,13 @@ import { IdeaService } from '@/services/IdeaServices';
 import { onMounted, ref } from 'vue';
 import { catchError, combineLatestWith, map, Observable, of, startWith, Subject, switchMap, tap, withLatestFrom} from 'rxjs';
 import { from,  useObservable } from '@vueuse/rxjs';
+import CommentComponent from '@/components/CommentComponent.vue';
 
 const edit=true
 const onMounted$ = new Subject<void>();
-
+const canc = ref(true);
 const currentPage = ref(1);
+const currentPage2 = ref(1);
 const pageSize = 10;
 
 const ideas$: Observable<Array<IdeaItem>> = onMounted$
@@ -39,11 +45,11 @@ const sortedIdeas$ = useObservable(
         .pipe(tap(() => console.log('currentPage: %o', currentPage.value)))
     ))
     .pipe(map(([ideas, page]) => {
-        console.log('!?', ideas, page);
+        //console.log('!?', ideas, page);
         let ris = [];
         const start = (page - 1) * pageSize;
         const end = start + pageSize;
-        console.log('start: %o, end: %o', start, end);
+        //console.log('start: %o, end: %o', start, end);
         ris = [...ideas].sort((a, b) => b.id - a.id);
         return ris.slice(start, end);
     })).pipe(startWith([])));

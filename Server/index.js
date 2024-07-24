@@ -4,6 +4,7 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
+import { commentRouter } from "./routes/commentRouter.js";
 import { ideaRouter } from "./routes/ideaRouter.js";
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { enforceAuthentication } from "./middleware/authorization.js";
@@ -29,7 +30,7 @@ app.use( (err, req, res, next) => {
 });
 
 
-//generate OpenAPI spec and show swagger ui
+// generate OpenAPI spec and show swagger ui
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc({
   definition: {
@@ -45,15 +46,16 @@ const swaggerSpec = swaggerJSDoc({
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 const excludeRoutes = [
-  '^/signup'
+  '^/signup',
+  '^/idea/all'
 ]
-
-
 
 //define routes
 app.use(authenticationRouter);
+//Da rimuovere quando il database deve essere riempito manualmente
 app.use(enforceAuthentication(excludeRoutes));
 app.use(ideaRouter);
+app.use(commentRouter);
 
 
 app.listen(PORT);
