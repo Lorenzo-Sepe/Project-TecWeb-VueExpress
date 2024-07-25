@@ -150,7 +150,7 @@ import ImageRule from '@tiptap/extension-image';
 import FontSize from 'tiptap-extension-font-size';
 import TextStyle from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
-import TextAlight from '@tiptap/extension-text-align';
+import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 
 //icone
@@ -186,7 +186,7 @@ const editor = useEditor({
         },
     },
     content: props.modelValue,
-    extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily,Highlight,TextAlight],
+    extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily,Highlight,TextAlign],
     onUpdate: ({ editor }) => {
         console.log(editor.getHTML());
         emit('update:modelValue', editor.getHTML());

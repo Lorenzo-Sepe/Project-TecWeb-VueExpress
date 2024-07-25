@@ -6,9 +6,9 @@
     </div>
 
     <div class="container" v-else>
-        <v-pagination  v-model="currentPage" :length="lunghezzaLista$"></v-pagination>
+        <v-pagination  v-model="currentPage" :length="paginationLenght" :total-Visible="paginationLenght"></v-pagination>
         <IdeaCard :ideasArray="sortedIdeas$!" :edit="edit" class="cardsSize" />
-        <v-pagination   v-model="currentPage" :length="lunghezzaLista$"></v-pagination>
+        <v-pagination   v-model="currentPage" :length="paginationLenght" :total-Visible="paginationLenght"></v-pagination>
     </div>
 </template>
 
@@ -19,7 +19,6 @@ import { IdeaService } from '@/services/IdeaServices';
 import { onMounted, ref } from 'vue';
 import { catchError, combineLatestWith, map, Observable, of, startWith, Subject, switchMap, tap, withLatestFrom} from 'rxjs';
 import { from,  useObservable } from '@vueuse/rxjs';
-
 
 const loading = ref(false);
 
@@ -39,6 +38,7 @@ const ideas$: Observable<Array<IdeaItem>> = onMounted$
     .pipe(tap(() => loading.value = false));
 
 onMounted(() => {
+    loading.value = true;
     onMounted$.next();
 });
 
@@ -81,13 +81,19 @@ const sortedIdeas$ = useObservable(
     })).pipe(startWith([])));
 
 const edit: boolean = false;
+const paginationLenght=ref(0)
 
-const lunghezzaLista$ = useObservable(ideas$.pipe(map(ideas => {
+const lunghezzaLista$ = useObservable(ideas$
+//.pipe(startWith(0))
+.pipe(map(ideas => {
     let arrotondamento = ideas.length + (pageSize - (ideas.length % pageSize));
     let lunghezzaLista = arrotondamento / pageSize;
     console.log('lunghezzaLista: %o', lunghezzaLista);
+    paginationLenght.value=lunghezzaLista
     return Math.floor(lunghezzaLista);
-})).pipe(startWith(0)));
+})));
+
+
 
 </script>
 
