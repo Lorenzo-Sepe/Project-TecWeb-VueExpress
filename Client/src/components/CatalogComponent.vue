@@ -20,6 +20,7 @@ import { onMounted, ref } from 'vue';
 import { catchError, combineLatestWith, map, Observable, of, startWith, Subject, switchMap, tap, withLatestFrom} from 'rxjs';
 import { from,  useObservable } from '@vueuse/rxjs';
 
+
 const loading = ref(false);
 
 const props = defineProps({
@@ -84,8 +85,10 @@ const edit: boolean = false;
 const lunghezzaLista$ = useObservable(ideas$.pipe(map(ideas => {
     let arrotondamento = ideas.length + (pageSize - (ideas.length % pageSize));
     let lunghezzaLista = arrotondamento / pageSize;
+    console.log('lunghezzaLista: %o', lunghezzaLista);
     return Math.floor(lunghezzaLista);
 })).pipe(startWith(0)));
+
 </script>
 
 <style scoped>
