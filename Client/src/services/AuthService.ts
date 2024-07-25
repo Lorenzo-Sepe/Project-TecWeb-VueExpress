@@ -4,9 +4,12 @@ import type { UserItem } from './user-item.type';
 
 export default {
     register(credentials: CredentialsItem) {
+        console.log('service register')
         return APIv1()
             .post('signup', credentials)
-            .then((response) => response.data);
+            .then((response) => {
+                console.log('register service then',response)
+                return response.data});
     },
     login(credentials: CredentialsItem) {
         return APIv1()

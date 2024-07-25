@@ -34,14 +34,19 @@ export class AuthController {
   static async saveUser(req) {
     //save new user
     return new Promise((ok, fail) => {
+      console.log('request body',req.body);
       User.create({
         userName: req.body.user, 
         userMail: req.body.email,
         password: req.body.password
       })
-      .then(user => ok([ 200,  { token: AuthController.issueToken(user.userMail) } ]))
+      .then(user => {
+        console.log('then')
+        ok([ 200,  { token: AuthController.issueToken(user.userMail) } ])
+      })
       .catch(e => {
         if(e.errors) {
+          console.log('catch')
           const foundUniqueViolation = e.errors.find(e => e.type === 'unique violation');
   
           if(foundUniqueViolation) {
@@ -61,6 +66,7 @@ export class AuthController {
    * @returns 
    */
   static issueToken(userMail){
+    console.log('issue token')
     return Jwt.sign({email:userMail}, process.env.TOKEN_SECRET, {expiresIn: `${24*60*60}s`});
   }
 

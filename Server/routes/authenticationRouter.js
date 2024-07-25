@@ -46,9 +46,12 @@ authenticationRouter.post("/auth", async (req, res) => {
 
 authenticationRouter.post("/signup", saveUser,  (req, res, next) => {
   saveUser(req, res, next);
-
+  console.log('qui')
   AuthController.saveUser(req, res)
-    .then(([ status, tokenObj ]) => res.status(status).json(tokenObj))
+    .then(([ status, tokenObj ]) => {
+      console.log('auth router, then', status,tokenObj)
+      res.status(status).json(tokenObj)
+    })
     .catch(e => console.error(e));
 });
 

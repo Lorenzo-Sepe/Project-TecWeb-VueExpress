@@ -8,7 +8,7 @@ export const enforceAuthentication = (excludeRoutes = []) => (req, res, next) =>
   //console.log("excludeRoutes:", excludeRoutes);
   if(excludeRoutes.map(r => new RegExp(r)).some(r => r.test(req.path))) {
     //console.log("Non serve autenticazione");
-    next();
+    //next();
     return; // ignore authentication on these paths
   }
   
