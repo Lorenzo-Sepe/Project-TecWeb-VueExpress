@@ -46,8 +46,7 @@ const swaggerSpec = swaggerJSDoc({
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 const excludeRoutes = [
-  '^/signup',
-  '^/idea/all'
+  '^/signup'
 ]
 
 //define routes
