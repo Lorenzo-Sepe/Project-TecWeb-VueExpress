@@ -11,7 +11,6 @@ export const useIdeaStore = defineStore(
             upvotes: 0,
             downvotes: 0,
             userMail: '',
-            comments: [],
         });
 
         function setIdea(   
@@ -22,7 +21,6 @@ export const useIdeaStore = defineStore(
                 upvotes: number,
                 downvotes: number,
                 userMail: string,
-                comments: string[],
             }
         ) {
             idea.value = newIdea
@@ -34,7 +32,6 @@ export const useIdeaStore = defineStore(
             upvotes?: number;
             downvotes?: number;
             userMail?: string;
-            comments?: string[];
         }) {
             idea.value = { ...idea.value, ...newData };
         }
@@ -47,7 +44,6 @@ export const useIdeaStore = defineStore(
                 upvotes: 0,
                 downvotes: 0,
                 userMail: '',
-                comments: [],
             };
         }
 

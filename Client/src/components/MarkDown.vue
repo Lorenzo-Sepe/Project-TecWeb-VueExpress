@@ -188,7 +188,6 @@ function addImage() {
     const url = window.prompt('URL');
     if (url) {
         editor.value?.chain().focus().setImage({ src: url }).run();
-        
     }
 }
 </script>

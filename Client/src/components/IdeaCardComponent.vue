@@ -63,12 +63,12 @@ async function caricaIdeaVisualizza(selectedIdea: any) {
     const ideaInstance = useIdeaStore();
     ideaInstance.setIdea(
       {
-        id: selectedIdea.id,
-        title: selectedIdea.title,
-        content: selectedIdea.content,
-        upvotes: selectedIdea.upvotes,
-        downvotes: selectedIdea.downvotes,
-        userMail: selectedIdea.userMail,
+          id: selectedIdea.id,
+          title: selectedIdea.title,
+          content: selectedIdea.content,
+          upvotes: selectedIdea.upvotes,
+          downvotes: selectedIdea.downvotes,
+          userMail: selectedIdea.userMail
       }
     );
     router.push({ name: 'VisualizzaIdea', params: { id: selectedIdea.id } });
@@ -90,12 +90,12 @@ async function caricaIdeaModifica(selectedIdea: any) {
     const ideaInstance = useIdeaStore();
     ideaInstance.setIdea(
       {
-        id: selectedIdea.id,
-        title: selectedIdea.title,
-        content: selectedIdea.content,
-        upvotes: selectedIdea.upvotes,
-        downvotes: selectedIdea.downvotes,
-        userMail: selectedIdea.userMail,
+          id: selectedIdea.id,
+          title: selectedIdea.title,
+          content: selectedIdea.content,
+          upvotes: selectedIdea.upvotes,
+          downvotes: selectedIdea.downvotes,
+          userMail: selectedIdea.userMail,
       }
     );
     router.push({ name: 'ModificaIdea', params: { id: selectedIdea.id } });

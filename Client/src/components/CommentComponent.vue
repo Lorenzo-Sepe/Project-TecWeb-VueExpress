@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Comments</h2>
-        <Comment :commentArray="comments" :canc="canc"/>
+        <Comment :commentArray="comments.map(comment => ({ id: Number(comment.id), userMail: comment.userMail ?? '', content: comment.content }))" :canc="canc"/>
         
         <v-pagination  v-model="currentPage" :length="lunghezzaLista$!"></v-pagination>
     </div>
@@ -24,26 +24,36 @@ const props=defineProps<{
 
 const ideaStore = useIdeaStore();
 const onMounted$ = new Subject<void>();
-    const currentPage = ref(1);
-    const pageSize = 10;
+const currentPage = ref(1);
+const pageSize = 10;
+const comments = ref([] as CommentItem[]);
 
-    const comments = ref([] as CommentItem[]);
+    
+
 
 onMounted(async() => {
     onMounted$.next();
-    comments.value = await CommentService.getCommentOld(ideaStore.idea.id).then((response) => {
+    await CommentService.getCommentOld(ideaStore.idea.id)
+    .then((response) => {
+        comments.value = response.data as unknown as CommentItem[];
         console.log('response: %o', response.data);
         return response.data;
     }).catch((error) => {
         console.error(error);
-    })
-
-    
+});
 });
 
 
 
-const Comments$: Observable<CommentItem[]> = onMounted$
+const Comments$: Observable<CommentItem[]> = onMounted$.pipe(
+    switchMap(() => CommentService.getComment(ideaStore.idea.id)))
+    .pipe(
+    tap(() => console.log('ideaStore.idea.id: %o', ideaStore.idea.id)))
+    .pipe(
+    catchError(err => {
+        console.error(err);
+        return of([] as CommentItem[]);
+    }))
     .pipe(switchMap(() => CommentService.getComment(ideaStore.idea.id)))
     .pipe(tap(() => console.log('ideaStore.idea.id: %o', ideaStore.idea.id)))
     .pipe(catchError(err => (console.error(err), of([] as CommentItem[]))));
@@ -63,16 +73,15 @@ const sortedComments$ = useObservable(
          ris.slice(start, end);
          console.log('ris: %o', ris);
          return ris;
-    })).pipe(startWith([])));
+    }))
+    .pipe(startWith([])));
 
 
-    const lunghezzaLista$ = useObservable(Comments$.pipe(map(Comments => {
+const lunghezzaLista$ = useObservable(Comments$.pipe(map(Comments => {
     let arrotondamento = Comments.length + (pageSize - (Comments.length % pageSize));
     let lunghezzaLista = arrotondamento / pageSize;
     return Math.floor(lunghezzaLista);
-})).pipe(startWith(0)));
+    }))
+    .pipe(startWith(0)));
 </script>
 
-<style scoped>
-/* Add your component styles here */
-</style>
