@@ -7,7 +7,7 @@
 
     <div class="container" v-else>
         <v-pagination  v-model="currentPage" :length="paginationLenght" :total-Visible="paginationLenght"></v-pagination>
-        <IdeaCard :ideasArray="sortedIdeas$!" :edit="edit" class="cardsSize" />
+        <IdeaCard :ideasArray="sortedIdeas$! as Array<{ id: string | number; title: string; content: string; upvotes: number; downvotes: number; userMail: string; }>" :edit="edit" class="cardsSize" />
         <v-pagination   v-model="currentPage" :length="paginationLenght" :total-Visible="paginationLenght"></v-pagination>
     </div>
 </template>
@@ -17,7 +17,7 @@ import type { IdeaItem } from '@/services/idea-item.type';
 import IdeaCard from '../components/IdeaCardComponent.vue';
 import { IdeaService } from '@/services/IdeaServices';
 import { onMounted, ref } from 'vue';
-import { catchError, combineLatestWith, map, Observable, of, startWith, Subject, switchMap, tap, withLatestFrom} from 'rxjs';
+import { catchError, combineLatestWith, map, Observable, of, startWith, Subject, switchMap, tap} from 'rxjs';
 import { from,  useObservable } from '@vueuse/rxjs';
 
 const loading = ref(false);

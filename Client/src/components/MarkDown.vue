@@ -11,7 +11,7 @@
                     :disabled="!editor.can().chain().focus().toggleBold().run()"
                     :class="{ 'is-active': editor.isActive('bold') }"
                 >
-                    <BoldIcon title="Bold" />
+                    <v-icon size="x-small" style="color: #f9b63c;" icon="mdi-format-bold"></v-icon>
                 </button>
                 <button
                     class="tagButton"
@@ -19,7 +19,7 @@
                     :disabled="!editor.can().chain().focus().toggleItalic().run()"
                     :class="{ 'is-active': editor.isActive('italic') }"
                 >
-                    <ItalicIcon />
+                <v-icon size="x-small" style="color: #f9b63c;" icon="mdi-format-italic"></v-icon>
                 </button>
                 <button
                     class="tagButton"
@@ -27,7 +27,7 @@
                     :disabled="!editor.can().chain().focus().toggleStrike().run()"
                     :class="{ 'is-active': editor.isActive('strike') }"
                 >
-                    <StrikeIcon />
+                <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-strikethrough-variant"></v-icon>
                 </button>
                 <button
                     class="tagButton"
@@ -35,14 +35,14 @@
                     :disabled="!editor.can().chain().focus().toggleUnderline().run()"
                     :class="{ 'is-active': editor.isActive('underline') }"
                 >
-                    <UnderlineIcon />
+                <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-underline"></v-icon>
                 </button>
                 <button
                     class="tagButton"
                     @click="editor.chain().focus().toggleHighlight().run()"
                     :class="{ 'is-active': editor.isActive('highlight') }"
                 >
-                    <HighlightIcon />
+                <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-color-highlight"></v-icon>
                 </button>
             </div>
 
@@ -60,14 +60,14 @@
                     @click="editor.chain().focus().toggleBulletList().run()"
                     :class="{ 'is-active': editor.isActive('bulletList') }"
                 >
-                    <BulletListIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-list-bulleted-square"></v-icon>
                 </button>
                 <button
                     class="tagButton"
                     @click="editor.chain().focus().toggleOrderedList().run()"
                     :class="{ 'is-active': editor.isActive('orderedList') }"
                 >
-                    <OrderedListIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-list-numbered"></v-icon>   
                 </button>
                 <button
                     class="tagButton"
@@ -75,13 +75,13 @@
                     :disabled="!editor.can().chain().focus().toggleCode().run()"
                     :class="{ 'is-active': editor.isActive('code') }"
                 >
-                    <CodeIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-code-tags"></v-icon>
                 </button>
                 <button @click="addImage" class="tagButton">
-                    <SetImage />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-image-plus"></v-icon>
                 </button>
                 <button class="tagButton" @click="editor.chain().focus().setHorizontalRule().run()">
-                    <HorizontalRuleIcon />
+                    <span style="color: #f9b63c; font-weight: 500" >---</span>
                 </button>
             </div>
 
@@ -91,28 +91,28 @@
                     @click="editor.chain().focus().setTextAlign('left').run()"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }"
                 >
-                    <TextAlignLeftIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-align-left"></v-icon>
                 </button>
                 <button
                     class="tagButton"
                     @click="editor.chain().focus().setTextAlign('center').run()"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }"
                 >
-                    <TextAlignCenterIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-align-center"></v-icon>
                 </button>
                 <button
                     class="tagButton"
                     @click="editor.chain().focus().setTextAlign('right').run()"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }"
                 >
-                    <TextAlignRightIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-align-right"></v-icon>
                 </button>
                 <button
                     class="tagButton"
                     @click="editor.chain().focus().setTextAlign('justify').run()"
                     :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }"
                 >
-                    <TextAlignJustifyIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-format-align-justify"></v-icon>
                 </button>
             </div>
 
@@ -122,14 +122,14 @@
                     @click="editor.chain().focus().undo().run()"
                     :disabled="!editor.can().chain().focus().undo().run()"
                 >
-                    <UndoIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-undo"></v-icon>
                 </button>
                 <button
                     class="tagButton"
                     @click="editor.chain().focus().redo().run()"
                     :disabled="!editor.can().chain().focus().redo().run()"
                 >
-                    <RedoIcon />
+                    <v-icon style="color: #f9b63c;" size="x-small" icon="mdi-redo"></v-icon>
                 </button>
             </div>
         </section>
@@ -152,25 +152,8 @@ import TextStyle from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
-
-//icone
-import BoldIcon from 'vue-material-design-icons/FormatBold.vue';
-import ItalicIcon from 'vue-material-design-icons/FormatItalic.vue';
-import StrikeIcon from 'vue-material-design-icons/FormatStrikethroughVariant.vue';
-import UnderlineIcon from 'vue-material-design-icons/FormatUnderline.vue';
-import CodeIcon from 'vue-material-design-icons/CodeTags.vue';
-import BulletListIcon from 'vue-material-design-icons/FormatListBulleted.vue';
-import OrderedListIcon from 'vue-material-design-icons/FormatListNumbered.vue';
-import HighlightIcon from 'vue-material-design-icons/formatcolorhighlight.vue';
-import TextAlignLeftIcon from 'vue-material-design-icons/FormatAlignLeft.vue';
-import TextAlignCenterIcon from 'vue-material-design-icons/FormatAlignCenter.vue';
-import TextAlignRightIcon from 'vue-material-design-icons/FormatAlignRight.vue';
-import TextAlignJustifyIcon from 'vue-material-design-icons/FormatAlignJustify.vue';
-import UndoIcon from 'vue-material-design-icons/Undo.vue';
-import RedoIcon from 'vue-material-design-icons/Redo.vue';
-import HorizontalRuleIcon from 'vue-material-design-icons/minus.vue';
-import SetImage from 'vue-material-design-icons/ImagePlusOutline.vue';
-import 'vue-material-design-icons/styles.css';
+import Image from '@tiptap/extension-image';
+import Dropcursor from '@tiptap/extension-dropcursor';
 
 const fontsizeNumber = ref(12);
 
@@ -186,7 +169,11 @@ const editor = useEditor({
         },
     },
     content: props.modelValue,
-    extensions: [StarterKit, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily,Highlight,TextAlign],
+    extensions: [StarterKit,Image, Dropcursor, Underline, HorizontalRule, ImageRule, FontSize, TextStyle, FontFamily,Highlight,
+    TextAlign.configure({
+        types: ['heading', 'paragraph'],
+    }),
+    ],
     onUpdate: ({ editor }) => {
         console.log(editor.getHTML());
         emit('update:modelValue', editor.getHTML());
@@ -200,7 +187,8 @@ function convertToFontSize(fontSize: number) {
 function addImage() {
     const url = window.prompt('URL');
     if (url) {
-        editor.chain().focus().setImage({ src: url }).run();
+        editor.value?.chain().focus().setImage({ src: url }).run();
+        
     }
 }
 </script>
@@ -211,11 +199,8 @@ input.tagButton {
     background-color: #005676;
     font-weight: bold;
     color: #f9b63c;
-    padding: 0.25rem 0.5rem;
     text-align: center;
-    font-size: 1.3rem;
     text-decoration: none;
-    margin: 0.5rem 0.1rem;
     cursor: pointer;
     border-radius: 12px;
 }
